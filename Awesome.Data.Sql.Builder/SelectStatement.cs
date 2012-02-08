@@ -23,6 +23,39 @@ namespace System.Data.Sql.Builder
             this.orderByClauses = new List<OrderByClause>();
         }
 
+        private SelectStatement(SqlStatement<SelectStatement> statement, List<string> columns, List<OrderByClause> orderByClauses)
+            : base(statement)
+        {
+            this.columns = columns;
+            this.orderByClauses = orderByClauses;
+        }
+
+        /// <summary>
+        /// Adds columns to SELECT
+        /// </summary>
+        /// <param name="columns">The columns.</param>
+        /// <returns></returns>
+        public SelectStatement Columns(params string[] columns)
+        {
+            return this.Columns(false, columns);
+        }
+
+        /// <summary>
+        /// Adds columns to SELECT. Clears the current one if specified.
+        /// </summary>
+        /// <param name="columns">The columns.</param>
+        /// <param name="clearCurrent">if set to <c>true</c> [clear current].</param>
+        /// <returns></returns>
+        public SelectStatement Columns(bool clearCurrent, params string[] columns)
+        {
+            if (clearCurrent)
+            {
+                this.columns.Clear();
+            }
+            this.columns.AddRange(columns);
+            return this;
+        }
+
         /// <summary>
         ///     Adds a column to the ORDER BY clause.
         /// </summary>
@@ -54,6 +87,15 @@ namespace System.Data.Sql.Builder
             }
 
             return builder.ToString().Trim();
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public override SelectStatement Clone()
+        {
+            return new SelectStatement(this, this.columns.ToList(), this.orderByClauses.Select(o => o.Clone()).ToList());
         }
     }
 }

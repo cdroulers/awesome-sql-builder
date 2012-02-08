@@ -9,7 +9,7 @@ namespace System.Data.Sql.Builder
     ///     The basics of an SQL statement.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class SqlStatement<T>
+    public abstract class SqlStatement<T> : ICloneable
         where T : SqlStatement<T>
     {
         /// <summary>
@@ -28,6 +28,16 @@ namespace System.Data.Sql.Builder
         {
             this.tables = new List<string>();
             this.whereClauses = new List<WhereClause>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlStatement&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="statement">The statement.</param>
+        protected SqlStatement(SqlStatement<T> statement)
+        {
+            this.tables = statement.tables.ToList();
+            this.whereClauses = statement.whereClauses.Select(w => w.Clone()).ToList();
         }
 
         /// <summary>
@@ -105,5 +115,22 @@ namespace System.Data.Sql.Builder
                 }
             }
         }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public abstract T Clone();
     }
 }

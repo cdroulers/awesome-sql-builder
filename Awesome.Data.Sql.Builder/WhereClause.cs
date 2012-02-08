@@ -8,7 +8,7 @@ namespace System.Data.Sql.Builder
     /// <summary>
     ///     Represents an SQL where clause in an SQL statement.
     /// </summary>
-    public class WhereClause
+    public class WhereClause : ICloneable
     {
         /// <summary>
         ///     The clause of the WHERE statement
@@ -28,6 +28,26 @@ namespace System.Data.Sql.Builder
         {
             this.Clause = clause;
             this.Or = or;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public WhereClause Clone()
+        {
+            return new WhereClause(this.Clause, this.Or);
         }
     }
 }

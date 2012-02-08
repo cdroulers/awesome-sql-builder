@@ -98,5 +98,54 @@ WHERE
 ORDER BY
     u.EmailAddress ASC, u.Name DESC"));
         }
+
+        [Test]
+        public void When_cloning_Then_copies_stuff()
+        {
+            var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
+                .From("Users u");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u"));
+
+            var clone = statement.Clone();
+            clone.From("Teams t")
+                .Columns("u.IsCool")
+                .Where("u.Name = @Query")
+                .OrderBy("u.Name", false);
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u"));
+            Assert.That(clone.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress, u.IsCool
+FROM
+    Users u, Teams t
+WHERE
+    u.Name = @Query
+ORDER BY
+    u.Name DESC"));
+        }
+
+        [Test]
+        public void When_clearing_columns_Then_empties_list()
+        {
+            var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
+                .From("Users u");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u"));
+
+            statement.Columns(true, "u.ID");
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID
+FROM
+    Users u"));
+        }
     }
 }

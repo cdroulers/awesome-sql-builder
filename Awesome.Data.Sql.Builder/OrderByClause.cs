@@ -8,7 +8,7 @@ namespace System.Data.Sql.Builder
     /// <summary>
     ///     Represents an ORDER BY column in an SQL statement.
     /// </summary>
-    public class OrderByClause
+    public class OrderByClause : ICloneable
     {
         /// <summary>
         ///     The column to order by
@@ -28,6 +28,26 @@ namespace System.Data.Sql.Builder
         {
             this.Column = column;
             this.Asc = asc;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public OrderByClause Clone()
+        {
+            return new OrderByClause(this.Column, this.Asc);
         }
     }
 }
