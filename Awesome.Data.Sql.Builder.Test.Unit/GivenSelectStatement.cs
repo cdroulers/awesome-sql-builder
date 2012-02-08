@@ -77,5 +77,26 @@ WHERE
 ORDER BY
     u.EmailAddress ASC, u.Name DESC"));
         }
+
+        [Test]
+        public void When_selecting_with_multiple_values_Then_builds_properly()
+        {
+            var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
+                .Where("u.IsCool = TRUE AND u.Name LIKE @Query")
+                .OrderBy("u.EmailAddress")
+                .From("Users u")
+                .OrderBy("u.Name", false);
+
+            var sql = statement.ToSql();
+
+            Assert.That(sql, Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u
+WHERE
+    u.IsCool = TRUE AND u.Name LIKE @Query
+ORDER BY
+    u.EmailAddress ASC, u.Name DESC"));
+        }
     }
 }

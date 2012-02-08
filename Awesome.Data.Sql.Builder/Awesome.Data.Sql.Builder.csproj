@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Awesome.Data.Sql.Builder.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Awesome.Data.Sql.Builder.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,10 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OrderByClause.cs" />
-    <Compile Include="ISqlStatement.cs" />
     <Compile Include="SelectStatement.cs" />
     <Compile Include="SqlStatement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlStatements.cs" />
     <Compile Include="WhereClause.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
