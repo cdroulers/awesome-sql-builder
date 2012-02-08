@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Awesome.Data.Sql.Builder", "Awesome.Data.Sql.Builder\Awesome.Data.Sql.Builder.csproj", "{C74D3E5E-201B-4322-A460-98590D29BA73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Awesome.Data.Sql.Builder.Test.Unit", "Awesome.Data.Sql.Builder.Test.Unit\Awesome.Data.Sql.Builder.Test.Unit.csproj", "{182455D1-6E8E-40AE-A97A-78435DFFB0F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C74D3E5E-201B-4322-A460-98590D29BA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C74D3E5E-201B-4322-A460-98590D29BA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C74D3E5E-201B-4322-A460-98590D29BA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C74D3E5E-201B-4322-A460-98590D29BA73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{182455D1-6E8E-40AE-A97A-78435DFFB0F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{182455D1-6E8E-40AE-A97A-78435DFFB0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{182455D1-6E8E-40AE-A97A-78435DFFB0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{182455D1-6E8E-40AE-A97A-78435DFFB0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
