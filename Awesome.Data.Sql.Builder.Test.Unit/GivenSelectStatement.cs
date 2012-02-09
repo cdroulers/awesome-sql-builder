@@ -177,6 +177,47 @@ ORDER BY
         }
 
         [Test]
+        public void When_cloning_with_all_properties_Then_copies_stuff()
+        {
+            var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
+                .From("Users u")
+                .Where("u.IsCool IS NULL")
+                .OrderBy("u.Name")
+                .Limit(1).Offset(2);
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u
+WHERE
+    u.IsCool IS NULL
+ORDER BY
+    u.Name ASC
+LIMIT 1 OFFSET 2"));
+
+            var clone = statement.Clone();
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u
+WHERE
+    u.IsCool IS NULL
+ORDER BY
+    u.Name ASC
+LIMIT 1 OFFSET 2"));
+            Assert.That(clone.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u
+WHERE
+    u.IsCool IS NULL
+ORDER BY
+    u.Name ASC
+LIMIT 1 OFFSET 2"));
+        }
+
+        [Test]
         public void When_clearing_columns_Then_empties_list()
         {
             var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")

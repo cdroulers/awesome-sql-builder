@@ -25,11 +25,13 @@ namespace System.Data.Sql.Builder
             this.orderByClauses = new List<OrderByClause>();
         }
 
-        private SelectStatement(SqlStatement<SelectStatement> statement, List<string> columns, List<OrderByClause> orderByClauses)
+        private SelectStatement(SqlStatement<SelectStatement> statement, List<string> columns, List<OrderByClause> orderByClauses, string limitClause, string offsetClause)
             : base(statement)
         {
             this.columns = columns;
             this.orderByClauses = orderByClauses;
+            this.limitClause = limitClause;
+            this.offsetClause = offsetClause;
         }
 
         /// <summary>
@@ -148,7 +150,7 @@ namespace System.Data.Sql.Builder
         /// <returns></returns>
         public override SelectStatement Clone()
         {
-            return new SelectStatement(this, this.columns.ToList(), this.orderByClauses.Select(o => o.Clone()).ToList());
+            return new SelectStatement(this, this.columns.ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
         }
     }
 }
