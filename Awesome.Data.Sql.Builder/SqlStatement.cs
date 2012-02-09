@@ -105,7 +105,7 @@ namespace System.Data.Sql.Builder
                     builder.Append(Indentation + clause.Clause);
                     if (i < this.whereClauses.Count - 1) // Last clause
                     {
-                        builder.AppendLine(" AND");
+                        builder.AppendLine(clause.Or ? " OR" : " AND");
                     }
                     else
                     {
