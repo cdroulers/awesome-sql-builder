@@ -12,6 +12,8 @@ namespace System.Data.Sql.Builder
     {
         private readonly List<string> columns;
         private readonly List<OrderByClause> orderByClauses;
+        private string limitClause;
+        private string offsetClause;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectStatement"/> class.
@@ -69,6 +71,48 @@ namespace System.Data.Sql.Builder
         }
 
         /// <summary>
+        /// Adds a LIMIT clause.
+        /// </summary>
+        /// <param name="limit">The limit.</param>
+        /// <returns></returns>
+        public SelectStatement Limit(string limit)
+        {
+            this.limitClause = limit;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a LIMIT clause.
+        /// </summary>
+        /// <param name="limit">The limit.</param>
+        /// <returns></returns>
+        public SelectStatement Limit(int limit)
+        {
+            return this.Limit(limit.ToString());
+        }
+
+        /// <summary>
+        /// Adds a OFFSET clause.
+        /// </summary>
+        /// <param name="offset">The offset.</param>
+        /// <returns></returns>
+        public SelectStatement Offset(string offset)
+        {
+            this.offsetClause = offset;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a OFFSET clause.
+        /// </summary>
+        /// <param name="offset">The offset.</param>
+        /// <returns></returns>
+        public SelectStatement Offset(int offset)
+        {
+            return this.Offset(offset.ToString());
+        }
+
+        /// <summary>
         /// Returns the statement as an SQL string.
         /// </summary>
         /// <returns></returns>
@@ -84,6 +128,15 @@ namespace System.Data.Sql.Builder
             {
                 builder.AppendLine("ORDER BY");
                 builder.AppendLine(Indentation + string.Join(Separator, this.orderByClauses.Select(c => c.Column + " " + (c.Asc ? "ASC" : "DESC"))));
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.limitClause))
+            {
+                builder.AppendFormat("LIMIT {0} ", this.limitClause);
+            }
+            if (!string.IsNullOrWhiteSpace(this.offsetClause))
+            {
+                builder.AppendFormat("OFFSET {0} ", this.offsetClause);
             }
 
             return builder.ToString().Trim();

@@ -34,6 +34,30 @@ ORDER BY
         }
 
         [Test]
+        public void When_selecting_with_limit_and_offset_Then_builds_properly()
+        {
+            var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
+                .From("Users u")
+                .Where("u.IsCool = TRUE")
+                .Where("u.Name LIKE @Query")
+                .OrderBy("u.Name", false)
+                .Limit(3).Offset(6);
+
+            var sql = statement.ToSql();
+
+            Assert.That(sql, Is.EqualTo(@"SELECT
+    u.ID, u.Name, u.EmailAddress
+FROM
+    Users u
+WHERE
+    u.IsCool = TRUE AND
+    u.Name LIKE @Query
+ORDER BY
+    u.Name DESC
+LIMIT 3 OFFSET 6"));
+        }
+
+        [Test]
         public void When_selecting_with_or_Then_builds_properly()
         {
             var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
