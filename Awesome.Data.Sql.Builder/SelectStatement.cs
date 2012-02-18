@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -10,10 +11,26 @@ namespace System.Data.Sql.Builder
     /// </summary>
     public class SelectStatement : SqlStatement<SelectStatement>
     {
-        private readonly List<string> columns;
+        private readonly List<string> columnsList;
+        /// <summary>
+        /// Returns
+        /// </summary>
+        public ReadOnlyCollection<string> ColumnsList { get { return new ReadOnlyCollection<string>(this.columnsList); } }
         private readonly List<OrderByClause> orderByClauses;
+        /// <summary>
+        /// Returns a list of order by clauses.
+        /// </summary>
+        public ReadOnlyCollection<OrderByClause> OrderByClauses { get { return new ReadOnlyCollection<OrderByClause>(this.orderByClauses); } }
         private string limitClause;
+        /// <summary>
+        /// Gets the limit clause
+        /// </summary>
+        public string LimitClause { get { return this.limitClause; } }
         private string offsetClause;
+        /// <summary>
+        /// Gets the offset clause
+        /// </summary>
+        public string OffsetClause { get { return this.offsetClause; } }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectStatement"/> class.
@@ -21,14 +38,14 @@ namespace System.Data.Sql.Builder
         /// <param name="columns">The columns.</param>
         public SelectStatement(IEnumerable<string> columns)
         {
-            this.columns = new List<string>(columns);
+            this.columnsList = new List<string>(columns);
             this.orderByClauses = new List<OrderByClause>();
         }
 
         private SelectStatement(SqlStatement<SelectStatement> statement, List<string> columns, List<OrderByClause> orderByClauses, string limitClause, string offsetClause)
             : base(statement)
         {
-            this.columns = columns;
+            this.columnsList = columns;
             this.orderByClauses = orderByClauses;
             this.limitClause = limitClause;
             this.offsetClause = offsetClause;
@@ -54,9 +71,9 @@ namespace System.Data.Sql.Builder
         {
             if (clearCurrent)
             {
-                this.columns.Clear();
+                this.columnsList.Clear();
             }
-            this.columns.AddRange(columns);
+            this.columnsList.AddRange(columns);
             return this;
         }
 
@@ -65,9 +82,14 @@ namespace System.Data.Sql.Builder
         /// </summary>
         /// <param name="column">The column.</param>
         /// <param name="asc">if set to <c>true</c> [asc].</param>
+        /// <param name="clearCurrent">if set to <c>true</c> [clearCurrent]</param>
         /// <returns></returns>
-        public SelectStatement OrderBy(string column, bool asc = true)
+        public SelectStatement OrderBy(string column, bool asc = true, bool clearCurrent = false)
         {
+            if (clearCurrent)
+            {
+                this.orderByClauses.Clear();
+            }
             this.orderByClauses.Add(new OrderByClause(column, asc));
             return this;
         }
@@ -122,7 +144,7 @@ namespace System.Data.Sql.Builder
         {
             var builder = new StringBuilder("SELECT");
             builder.AppendLine();
-            builder.AppendLine(Indentation + string.Join(Separator, this.columns));
+            builder.AppendLine(Indentation + string.Join(Separator, this.columnsList));
             this.AppendFrom(builder);
             this.AppendWhere(builder);
 
@@ -150,7 +172,7 @@ namespace System.Data.Sql.Builder
         /// <returns></returns>
         public override SelectStatement Clone()
         {
-            return new SelectStatement(this, this.columns.ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
+            return new SelectStatement(this, this.columnsList.ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
         }
     }
 }

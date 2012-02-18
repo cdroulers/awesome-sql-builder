@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace System.Data.Sql.Builder
 {
@@ -19,7 +20,15 @@ namespace System.Data.Sql.Builder
         protected const string Separator = ", ";
 
         private readonly List<string> tables;
+        /// <summary>
+        ///     A list of tables to query.
+        /// </summary>
+        public ReadOnlyCollection<string> Tables { get { return new ReadOnlyCollection<string>(this.tables); } }
         private readonly List<WhereClause> whereClauses;
+        /// <summary>
+        /// A list of where clauses
+        /// </summary>
+        public ReadOnlyCollection<WhereClause> WhereClauses { get { return new ReadOnlyCollection<WhereClause>(this.whereClauses); } }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlStatement&lt;T&gt;"/> class.
