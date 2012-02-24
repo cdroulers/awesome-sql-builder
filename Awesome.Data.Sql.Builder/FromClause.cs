@@ -33,5 +33,17 @@ namespace System.Data.Sql.Builder
         /// <param name="builder"></param>
         /// <returns></returns>
         public abstract void BuildSql(StringBuilder builder);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="System.Data.Sql.Builder.FromClause"/>.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static implicit operator FromClause(string s)
+        {
+            return new TableClause(s);
+        }
     }
 }
