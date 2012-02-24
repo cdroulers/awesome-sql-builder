@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace System.Data.Sql.Builder
+namespace System.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     Represents an SQL statement
@@ -137,13 +137,72 @@ namespace System.Data.Sql.Builder
         }
 
         /// <summary>
+        /// Performs an OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement OuterJoin(FromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new OuterJoin(lastClause, table, onClause));
+            return this;
+        }
+
+        /// <summary>
+        /// Performs an INNER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement InnerJoin(FromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new InnerJoin(lastClause, table, onClause));
+            return this;
+        }
+
+        /// <summary>
+        /// Performs a LEFT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement LeftOuterJoin(FromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new LeftOuterJoin(lastClause, table, onClause));
+            return this;
+        }
+
+        /// <summary>
+        /// Performs a RIGHT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement RightOuterJoin(FromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new RightOuterJoin(lastClause, table, onClause));
+            return this;
+        }
+
+        /// <summary>
+        /// Performs a FULL JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement FullJoin(FromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new FullJoin(lastClause, table, onClause));
+            return this;
+        }
+
+        /// <summary>
         /// Returns the statement as an SQL string.
         /// </summary>
         /// <returns></returns>
-        public override string ToSql()
+        public override void BuildSql(StringBuilder builder)
         {
-            var builder = new StringBuilder("SELECT");
-            builder.AppendLine();
+            builder.AppendLine("SELECT");
             builder.AppendLine(Indentation + string.Join(Separator, this.columnsList));
             this.AppendFrom(builder);
             this.AppendWhere(builder);
@@ -162,8 +221,6 @@ namespace System.Data.Sql.Builder
             {
                 builder.AppendFormat("OFFSET {0} ", this.offsetClause);
             }
-
-            return builder.ToString().Trim();
         }
 
         /// <summary>

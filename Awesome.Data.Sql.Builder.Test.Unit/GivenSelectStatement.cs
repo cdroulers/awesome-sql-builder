@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Sql.Builder;
+using System.Data.Sql.Builder.Select;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -169,7 +170,8 @@ FROM
             Assert.That(clone.ToSql(), Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress, u.IsCool
 FROM
-    Users u, Teams t
+    Users u,
+    Teams t
 WHERE
     u.Name = @Query
 ORDER BY
@@ -233,6 +235,94 @@ FROM
     u.ID
 FROM
     Users u"));
+        }
+
+        [Test]
+        public void When_selecting_with_outer_join_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, t.ID")
+                .From("Users u")
+                .OuterJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, t.ID
+FROM
+    Users u
+    OUTER JOIN Teams t ON u.TeamID = t.ID"));
+        }
+
+        [Test]
+        public void When_selecting_with_inner_join_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, t.ID")
+                .From("Users u")
+                .InnerJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, t.ID
+FROM
+    Users u
+    INNER JOIN Teams t ON u.TeamID = t.ID"));
+        }
+
+        [Test]
+        public void When_selecting_with_left_outer_join_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, t.ID")
+                .From("Users u")
+                .LeftOuterJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, t.ID
+FROM
+    Users u
+    LEFT OUTER JOIN Teams t ON u.TeamID = t.ID"));
+        }
+
+        [Test]
+        public void When_selecting_with_right_outer_join_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, t.ID")
+                .From("Users u")
+                .RightOuterJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, t.ID
+FROM
+    Users u
+    RIGHT OUTER JOIN Teams t ON u.TeamID = t.ID"));
+        }
+
+        [Test]
+        public void When_selecting_with_full_join_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, t.ID")
+                .From("Users u")
+                .FullJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, t.ID
+FROM
+    Users u
+    FULL JOIN Teams t ON u.TeamID = t.ID"));
+        }
+
+        [Test]
+        public void When_selecting_with_triple_join_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, t.ID")
+                .From("Users u")
+                .FullJoin(new TableClause("Teams t"), "u.TeamID = t.ID")
+                .OuterJoin(new TableClause("Settings s"), "u.SettingID = s.ID")
+                .LeftOuterJoin(new TableClause("Parameters p"), "u.ParameterID = p.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, t.ID
+FROM
+    Users u
+    FULL JOIN Teams t ON u.TeamID = t.ID
+    OUTER JOIN Settings s ON u.SettingID = s.ID
+    LEFT OUTER JOIN Parameters p ON u.ParameterID = p.ID"));
         }
     }
 }

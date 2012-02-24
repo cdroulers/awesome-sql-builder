@@ -10,20 +10,27 @@ namespace System.Data.Sql.Builder
     ///     The basics of an SQL statement.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class SqlStatement<T> : ICloneable
+    public abstract class SqlStatement<T> : ICloneable, ISqlFragment
         where T : SqlStatement<T>
     {
         /// <summary>
         ///     Indentation to use when indenting query sub-parts.
         /// </summary>
-        protected const string Indentation = "    ";
+        internal const string Indentation = "    ";
+        /// <summary>
+        ///     Separator for general things in SQL.
+        /// </summary>
         protected const string Separator = ", ";
+        /// <summary>
+        ///     Separator for general things in SQL at a line end.
+        /// </summary>
+        protected const string SeparatorNoSpace = ",";
 
-        private readonly List<string> tables;
+        private readonly List<FromClause> tables;
         /// <summary>
         ///     A list of tables to query.
         /// </summary>
-        public ReadOnlyCollection<string> Tables { get { return new ReadOnlyCollection<string>(this.tables); } }
+        public ReadOnlyCollection<FromClause> Tables { get { return new ReadOnlyCollection<FromClause>(this.tables); } }
         private readonly List<WhereClause> whereClauses;
         /// <summary>
         /// A list of where clauses
@@ -35,7 +42,7 @@ namespace System.Data.Sql.Builder
         /// </summary>
         protected SqlStatement()
         {
-            this.tables = new List<string>();
+            this.tables = new List<FromClause>();
             this.whereClauses = new List<WhereClause>();
         }
 
@@ -56,8 +63,32 @@ namespace System.Data.Sql.Builder
         /// <returns></returns>
         public T From(params string[] tables)
         {
+            return this.From(tables.Select(t => new TableClause(t)).ToArray());
+        }
+
+        /// <summary>
+        /// Adds tables to the FROM list of the statement.
+        /// </summary>
+        /// <param name="tables">The tables.</param>
+        /// <returns></returns>
+        public T From(params FromClause[] tables)
+        {
             this.tables.AddRange(tables);
             return (T)this;
+        }
+
+        /// <summary>
+        /// Transforms the last table with a function.
+        /// </summary>
+        /// <param name="transform">The transform.</param>
+        protected void TransformLastTable(Func<FromClause, FromClause> transform)
+        {
+            if (!this.tables.Any())
+            {
+                throw new InvalidOperationException(Properties.Strings.CannotTransformAnEmptyFromClause);
+            }
+
+            this.tables[this.tables.Count - 1] = transform(this.tables[this.tables.Count - 1]);
         }
 
         /// <summary>
@@ -73,10 +104,11 @@ namespace System.Data.Sql.Builder
         }
 
         /// <summary>
-        ///     Returns the statement as an SQL string.
+        /// Returns the SQL for the current object.
         /// </summary>
+        /// <param name="builder"></param>
         /// <returns></returns>
-        public abstract string ToSql();
+        public abstract void BuildSql(StringBuilder builder);
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -96,7 +128,18 @@ namespace System.Data.Sql.Builder
         protected void AppendFrom(StringBuilder builder)
         {
             builder.AppendLine("FROM");
-            builder.AppendLine(Indentation + string.Join(Separator, this.tables));
+            int i = 0;
+            foreach (var table in this.tables)
+            {
+                builder.Append(Indentation);
+                table.BuildSql(builder);
+                if (i < this.tables.Count - 1) // Not last clause
+                {
+                    builder.AppendLine(SeparatorNoSpace);
+                }
+                i++;
+            }
+            builder.AppendLine();
         }
 
         /// <summary>
@@ -112,7 +155,7 @@ namespace System.Data.Sql.Builder
                 foreach (var clause in this.whereClauses)
                 {
                     builder.Append(Indentation + clause.Clause);
-                    if (i < this.whereClauses.Count - 1) // Last clause
+                    if (i < this.whereClauses.Count - 1) // Not last clause
                     {
                         builder.AppendLine(clause.Or ? " OR" : " AND");
                     }
