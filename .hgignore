@@ -3,3 +3,4 @@ syntax: glob
 *.suo
 bin/
 obj/
+packages/*
