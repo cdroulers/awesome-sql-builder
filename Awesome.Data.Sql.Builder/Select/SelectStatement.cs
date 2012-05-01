@@ -95,6 +95,16 @@ namespace System.Data.Sql.Builder.Select
         }
 
         /// <summary>
+        /// Clears the order by clauses.
+        /// </summary>
+        /// <returns></returns>
+        public SelectStatement ClearOrderBy()
+        {
+            this.orderByClauses.Clear();
+            return this;
+        }
+
+        /// <summary>
         /// Adds a LIMIT clause.
         /// </summary>
         /// <param name="limit">The limit.</param>
@@ -116,6 +126,16 @@ namespace System.Data.Sql.Builder.Select
         }
 
         /// <summary>
+        /// Clears the limit clause
+        /// </summary>
+        /// <returns></returns>
+        public SelectStatement ClearLimit()
+        {
+            this.limitClause = null;
+            return this;
+        }
+
+        /// <summary>
         /// Adds a OFFSET clause.
         /// </summary>
         /// <param name="offset">The offset.</param>
@@ -134,6 +154,16 @@ namespace System.Data.Sql.Builder.Select
         public SelectStatement Offset(int offset)
         {
             return this.Offset(offset.ToString());
+        }
+
+        /// <summary>
+        /// Clears the offset clause
+        /// </summary>
+        /// <returns></returns>
+        public SelectStatement ClearOffset()
+        {
+            this.offsetClause = null;
+            return this;
         }
 
         /// <summary>
