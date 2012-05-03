@@ -184,39 +184,28 @@ ORDER BY
             var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
                 .From("Users u")
                 .Where("u.IsCool IS NULL")
+                .GroupBy("u.ID")
                 .OrderBy("u.Name")
                 .Limit(1).Offset(2);
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            const string resultStatement = @"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
 WHERE
     u.IsCool IS NULL
+GROUP BY
+    u.ID
 ORDER BY
     u.Name ASC
-LIMIT 1 OFFSET 2"));
+LIMIT 1 OFFSET 2";
+
+            Assert.That(statement.ToSql(), Is.EqualTo(resultStatement));
 
             var clone = statement.Clone();
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
-    u.ID, u.Name, u.EmailAddress
-FROM
-    Users u
-WHERE
-    u.IsCool IS NULL
-ORDER BY
-    u.Name ASC
-LIMIT 1 OFFSET 2"));
-            Assert.That(clone.ToSql(), Is.EqualTo(@"SELECT
-    u.ID, u.Name, u.EmailAddress
-FROM
-    Users u
-WHERE
-    u.IsCool IS NULL
-ORDER BY
-    u.Name ASC
-LIMIT 1 OFFSET 2"));
+            Assert.That(statement.ToSql(), Is.EqualTo(resultStatement));
+            Assert.That(clone.ToSql(), Is.EqualTo(resultStatement));
         }
 
         [Test]
@@ -323,6 +312,21 @@ FROM
     FULL JOIN Teams t ON u.TeamID = t.ID
     OUTER JOIN Settings s ON u.SettingID = s.ID
     LEFT OUTER JOIN Parameters p ON u.ParameterID = p.ID"));
+        }
+
+        [Test]
+        public void When_selecting_with_group_by_Then_works()
+        {
+            var statement = SqlStatements.Select("u.ID, COUNT(*)")
+                .From("Users u")
+                .GroupBy("u.ID");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    u.ID, COUNT(*)
+FROM
+    Users u
+GROUP BY
+    u.ID"));
         }
     }
 }

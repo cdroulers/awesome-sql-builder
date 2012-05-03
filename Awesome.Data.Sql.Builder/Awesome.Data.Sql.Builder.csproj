@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="FromClause.cs" />
     <Compile Include="ISqlFragment.cs" />
+    <Compile Include="Select\GroupByClause.cs" />
     <Compile Include="Select\FullJoin.cs" />
     <Compile Include="Select\RightOuterJoin.cs" />
     <Compile Include="Select\LeftOuterJoin.cs" />

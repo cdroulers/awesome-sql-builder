@@ -16,6 +16,11 @@ namespace System.Data.Sql.Builder.Select
         /// Returns
         /// </summary>
         public ReadOnlyCollection<string> ColumnsList { get { return new ReadOnlyCollection<string>(this.columnsList); } }
+        private readonly List<GroupByClause> groupByClauses;
+        /// <summary>
+        /// Returns a list of group by clauses.
+        /// </summary>
+        public ReadOnlyCollection<GroupByClause> GroupByClauses { get { return new ReadOnlyCollection<GroupByClause>(this.groupByClauses); } }
         private readonly List<OrderByClause> orderByClauses;
         /// <summary>
         /// Returns a list of order by clauses.
@@ -39,13 +44,15 @@ namespace System.Data.Sql.Builder.Select
         public SelectStatement(IEnumerable<string> columns)
         {
             this.columnsList = new List<string>(columns);
+            this.groupByClauses = new List<GroupByClause>();
             this.orderByClauses = new List<OrderByClause>();
         }
 
-        private SelectStatement(SqlStatement<SelectStatement> statement, List<string> columns, List<OrderByClause> orderByClauses, string limitClause, string offsetClause)
+        private SelectStatement(SqlStatement<SelectStatement> statement, List<string> columns, List<GroupByClause> groupByClauses, List<OrderByClause> orderByClauses, string limitClause, string offsetClause)
             : base(statement)
         {
             this.columnsList = columns;
+            this.groupByClauses = groupByClauses;
             this.orderByClauses = orderByClauses;
             this.limitClause = limitClause;
             this.offsetClause = offsetClause;
@@ -74,6 +81,32 @@ namespace System.Data.Sql.Builder.Select
                 this.columnsList.Clear();
             }
             this.columnsList.AddRange(columns);
+            return this;
+        }
+
+        /// <summary>
+        ///     Adds a column to the GROUP BY clause.
+        /// </summary>
+        /// <param name="column">The column.</param>
+        /// <param name="clearCurrent">if set to <c>true</c> [clearCurrent]</param>
+        /// <returns></returns>
+        public SelectStatement GroupBy(GroupByClause column, bool clearCurrent = false)
+        {
+            if (clearCurrent)
+            {
+                this.groupByClauses.Clear();
+            }
+            this.groupByClauses.Add(column);
+            return this;
+        }
+
+        /// <summary>
+        /// Clears the GROUP BY clauses.
+        /// </summary>
+        /// <returns></returns>
+        public SelectStatement ClearGroupBy()
+        {
+            this.groupByClauses.Clear();
             return this;
         }
 
@@ -237,6 +270,12 @@ namespace System.Data.Sql.Builder.Select
             this.AppendFrom(builder);
             this.AppendWhere(builder);
 
+            if (this.groupByClauses.Any())
+            {
+                builder.AppendLine("GROUP BY");
+                builder.AppendLine(Indentation + string.Join(Separator, this.groupByClauses.Select(c => c.Column)));
+            }
+
             if (this.orderByClauses.Any())
             {
                 builder.AppendLine("ORDER BY");
@@ -259,7 +298,7 @@ namespace System.Data.Sql.Builder.Select
         /// <returns></returns>
         public override SelectStatement Clone()
         {
-            return new SelectStatement(this, this.columnsList.ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
+            return new SelectStatement(this, this.columnsList.ToList(), this.groupByClauses.Select(o => o.Clone()).ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
         }
     }
 }
