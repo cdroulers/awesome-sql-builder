@@ -328,5 +328,14 @@ FROM
 GROUP BY
     u.ID"));
         }
+
+        [Test]
+        public void When_selecting_with_no_table_by_Then_doesnt_output_from_clause()
+        {
+            var statement = SqlStatements.Select("(SELECT COUNT(*) FROM Users) AS UserCount");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    (SELECT COUNT(*) FROM Users) AS UserCount"));
+        }
     }
 }

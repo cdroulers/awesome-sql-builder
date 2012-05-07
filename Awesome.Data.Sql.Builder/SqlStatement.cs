@@ -127,19 +127,22 @@ namespace System.Data.Sql.Builder
         /// <returns></returns>
         protected void AppendFrom(StringBuilder builder)
         {
-            builder.AppendLine("FROM");
-            int i = 0;
-            foreach (var table in this.tables)
+            if (this.tables.Any())
             {
-                builder.Append(Indentation);
-                table.BuildSql(builder);
-                if (i < this.tables.Count - 1) // Not last clause
+                builder.AppendLine("FROM");
+                int i = 0;
+                foreach (var table in this.tables)
                 {
-                    builder.AppendLine(SeparatorNoSpace);
+                    builder.Append(Indentation);
+                    table.BuildSql(builder);
+                    if (i < this.tables.Count - 1) // Not last clause
+                    {
+                        builder.AppendLine(SeparatorNoSpace);
+                    }
+                    i++;
                 }
-                i++;
+                builder.AppendLine();
             }
-            builder.AppendLine();
         }
 
         /// <summary>
