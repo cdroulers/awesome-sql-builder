@@ -207,6 +207,61 @@ namespace System.Data.Sql.Builder.Select
         /// <returns></returns>
         public SelectStatement OuterJoin(FromClause table, string onClause)
         {
+            return this.OuterJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs an INNER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement InnerJoin(FromClause table, string onClause)
+        {
+            return this.InnerJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs a LEFT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement LeftOuterJoin(FromClause table, string onClause)
+        {
+            return this.LeftOuterJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs a RIGHT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement RightOuterJoin(FromClause table, string onClause)
+        {
+            return this.RightOuterJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs a FULL JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement FullJoin(FromClause table, string onClause)
+        {
+            return this.FullJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs an OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns></returns>
+        public SelectStatement OuterJoin(IFromClause table, string onClause)
+        {
             this.TransformLastTable(lastClause => new OuterJoin(lastClause, table, onClause));
             return this;
         }
@@ -217,7 +272,7 @@ namespace System.Data.Sql.Builder.Select
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
         /// <returns></returns>
-        public SelectStatement InnerJoin(FromClause table, string onClause)
+        public SelectStatement InnerJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new InnerJoin(lastClause, table, onClause));
             return this;
@@ -229,7 +284,7 @@ namespace System.Data.Sql.Builder.Select
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
         /// <returns></returns>
-        public SelectStatement LeftOuterJoin(FromClause table, string onClause)
+        public SelectStatement LeftOuterJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new LeftOuterJoin(lastClause, table, onClause));
             return this;
@@ -241,7 +296,7 @@ namespace System.Data.Sql.Builder.Select
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
         /// <returns></returns>
-        public SelectStatement RightOuterJoin(FromClause table, string onClause)
+        public SelectStatement RightOuterJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new RightOuterJoin(lastClause, table, onClause));
             return this;
@@ -253,7 +308,7 @@ namespace System.Data.Sql.Builder.Select
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
         /// <returns></returns>
-        public SelectStatement FullJoin(FromClause table, string onClause)
+        public SelectStatement FullJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new FullJoin(lastClause, table, onClause));
             return this;
