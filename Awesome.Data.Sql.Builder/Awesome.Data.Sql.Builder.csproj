@@ -45,8 +45,11 @@
     <Compile Include="FromClause.cs" />
     <Compile Include="IFromClause.cs" />
     <Compile Include="ISqlFragment.cs" />
+    <Compile Include="Select\ExceptOperation.cs" />
+    <Compile Include="Select\IntersectOperation.cs" />
     <Compile Include="Select\GroupByClause.cs" />
     <Compile Include="Select\FullJoin.cs" />
+    <Compile Include="Select\ISetQuery.cs" />
     <Compile Include="Select\RightOuterJoin.cs" />
     <Compile Include="Select\LeftOuterJoin.cs" />
     <Compile Include="Select\InnerJoin.cs" />
@@ -54,6 +57,8 @@
     <Compile Include="Select\OrderByClause.cs" />
     <Compile Include="Select\OuterJoin.cs" />
     <Compile Include="Select\SelectStatement.cs" />
+    <Compile Include="Select\SetOperation.cs" />
+    <Compile Include="Select\UnionOperation.cs" />
     <Compile Include="SqlBuilderExtensions.cs" />
     <Compile Include="SqlStatement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

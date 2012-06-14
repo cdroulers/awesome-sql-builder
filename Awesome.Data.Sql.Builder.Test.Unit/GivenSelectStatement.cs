@@ -353,5 +353,81 @@ FROM
     Users u
     ) Sub"));
         }
+
+        [Test]
+        public void When_selecting_with_union_all_Then_outputs_properly()
+        {
+            var firstUnion = SqlStatements.Select("u.ID").From("Users u");
+            var secondUnion = SqlStatements.Select("t.ID").From("Teams t");
+            var thirdUnion = SqlStatements.Select("w.ID").From("Wot w");
+
+            var statement = SqlStatements.Select("*")
+                .From(firstUnion.Union(secondUnion, all: true).Union(thirdUnion).As("Sub"))
+                .Where("ID > 3");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    *
+FROM
+    (
+SELECT
+    u.ID
+FROM
+    Users u
+
+UNION ALL
+
+SELECT
+    t.ID
+FROM
+    Teams t
+
+UNION
+
+SELECT
+    w.ID
+FROM
+    Wot w
+    ) Sub
+WHERE
+    ID > 3"));
+        }
+
+        [Test]
+        public void When_selecting_with_intersect_and_except_Then_outputs_properly()
+        {
+            var first = SqlStatements.Select("u.ID").From("Users u");
+            var second = SqlStatements.Select("t.ID").From("Teams t");
+            var third = SqlStatements.Select("w.ID").From("Wot w");
+
+            var statement = SqlStatements.Select("*")
+                .From(first.Intersect(second).Except(third, all: true).As("Sub"))
+                .Where("ID > 3");
+
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    *
+FROM
+    (
+SELECT
+    u.ID
+FROM
+    Users u
+
+INTERSECT
+
+SELECT
+    t.ID
+FROM
+    Teams t
+
+EXCEPT ALL
+
+SELECT
+    w.ID
+FROM
+    Wot w
+    ) Sub
+WHERE
+    ID > 3"));
+        }
     }
 }

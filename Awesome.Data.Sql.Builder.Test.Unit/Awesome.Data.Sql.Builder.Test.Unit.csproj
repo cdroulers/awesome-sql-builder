@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GivenSetOperations.cs" />
     <Compile Include="GivenFromClause.cs" />
     <Compile Include="GivenJoinClause.cs" />
     <Compile Include="GivenSelectStatement.cs" />

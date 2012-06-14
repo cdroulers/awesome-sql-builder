@@ -9,7 +9,7 @@ namespace System.Data.Sql.Builder.Select
     /// <summary>
     ///     Represents an SQL statement
     /// </summary>
-    public class SelectStatement : SqlStatement<SelectStatement>, IFromClause
+    public class SelectStatement : SqlStatement<SelectStatement>, IFromClause, ISetQuery
     {
         private readonly List<string> columnsList;
         /// <summary>
@@ -318,7 +318,7 @@ namespace System.Data.Sql.Builder.Select
         {
             builder.AppendLine("(");
             this.BuildSql(builder);
-            builder.AppendLine(Indentation + ")" + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
+            builder.Append(Indentation + ")" + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
         }
 
         /// <summary>

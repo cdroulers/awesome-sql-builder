@@ -58,6 +58,6 @@ namespace System.Data.Sql.Builder
         /// <summary>
         /// Gets the alias of the from clause.
         /// </summary>
-        public string Alias { get; protected set; }
+        public string Alias { get; set; }
     }
 }

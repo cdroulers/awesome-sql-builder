@@ -22,6 +22,6 @@ namespace System.Data.Sql.Builder
         /// <summary>
         /// Gets the alias of the from clause.
         /// </summary>
-        string Alias { get; }
+        string Alias { get; set; }
     }
 }
