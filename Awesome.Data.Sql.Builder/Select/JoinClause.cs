@@ -15,11 +15,11 @@ namespace System.Data.Sql.Builder.Select
         /// <summary>
         ///     The first clause to join on.
         /// </summary>
-        public readonly FromClause FirstTable;
+        public readonly IFromClause FirstTable;
         /// <summary>
         ///     The second clause to join on.
         /// </summary>
-        public readonly FromClause SecondTable;
+        public readonly IFromClause SecondTable;
         /// <summary>
         ///     The ON clause to join the two tables.
         /// </summary>
@@ -31,7 +31,7 @@ namespace System.Data.Sql.Builder.Select
         /// <param name="firstTable">The first table.</param>
         /// <param name="secondTable">The second table.</param>
         /// <param name="onClause">The on clause.</param>
-        protected JoinClause(FromClause firstTable, FromClause secondTable, string onClause)
+        protected JoinClause(IFromClause firstTable, IFromClause secondTable, string onClause)
         {
             this.FirstTable = firstTable;
             this.SecondTable = secondTable;
@@ -53,7 +53,7 @@ namespace System.Data.Sql.Builder.Select
         /// Clones this instance.
         /// </summary>
         /// <returns></returns>
-        public override FromClause CloneFrom()
+        public override IFromClause CloneFrom()
         {
             return this.Clone();
         }

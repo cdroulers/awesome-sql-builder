@@ -19,9 +19,11 @@ namespace System.Data.Sql.Builder
         /// Initializes a new instance of the <see cref="TableClause"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        public TableClause(string name)
+        /// <param name="alias">The alias.</param>
+        public TableClause(string name, string alias = null)
         {
             this.Name = name;
+            this.Alias = alias;
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace System.Data.Sql.Builder
         /// Clones this instance.
         /// </summary>
         /// <returns></returns>
-        public override FromClause CloneFrom()
+        public override IFromClause CloneFrom()
         {
             return this.Clone();
         }
@@ -48,7 +50,7 @@ namespace System.Data.Sql.Builder
         /// <returns></returns>
         public override void BuildSql(StringBuilder builder)
         {
-            builder.Append(this.Name);
+            builder.Append(this.Name + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
         }
 
         /// <summary>

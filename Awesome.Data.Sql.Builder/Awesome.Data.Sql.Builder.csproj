@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FromClause.cs" />
+    <Compile Include="IFromClause.cs" />
     <Compile Include="ISqlFragment.cs" />
     <Compile Include="Select\GroupByClause.cs" />
     <Compile Include="Select\FullJoin.cs" />

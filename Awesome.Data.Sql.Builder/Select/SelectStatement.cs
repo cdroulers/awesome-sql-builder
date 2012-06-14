@@ -9,7 +9,7 @@ namespace System.Data.Sql.Builder.Select
     /// <summary>
     ///     Represents an SQL statement
     /// </summary>
-    public class SelectStatement : SqlStatement<SelectStatement>
+    public class SelectStatement : SqlStatement<SelectStatement>, IFromClause
     {
         private readonly List<string> columnsList;
         /// <summary>
@@ -299,6 +299,42 @@ namespace System.Data.Sql.Builder.Select
         public override SelectStatement Clone()
         {
             return new SelectStatement(this, this.columnsList.ToList(), this.groupByClauses.Select(o => o.Clone()).ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
+        }
+
+        /// <summary>
+        /// Clones from.
+        /// </summary>
+        /// <returns></returns>
+        public IFromClause CloneFrom()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Adds the SQL for the current object to the builder
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        public void BuildFromSql(StringBuilder builder)
+        {
+            builder.AppendLine("(");
+            this.BuildSql(builder);
+            builder.AppendLine(Indentation + ")" + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
+        }
+
+        /// <summary>
+        /// Gets the alias of the from clause.
+        /// </summary>
+        public string Alias { get; set; }
+
+        /// <summary>
+        /// Sets the alias for this statement.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns></returns>
+        public SelectStatement As(string alias)
+        {
+            this.Alias = alias;
+            return this;
         }
     }
 }

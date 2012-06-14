@@ -26,11 +26,11 @@ namespace System.Data.Sql.Builder
         /// </summary>
         protected const string SeparatorNoSpace = ",";
 
-        private readonly List<FromClause> tables;
+        private readonly List<IFromClause> tables;
         /// <summary>
         ///     A list of tables to query.
         /// </summary>
-        public ReadOnlyCollection<FromClause> Tables { get { return new ReadOnlyCollection<FromClause>(this.tables); } }
+        public ReadOnlyCollection<IFromClause> Tables { get { return new ReadOnlyCollection<IFromClause>(this.tables); } }
         private readonly List<WhereClause> whereClauses;
         /// <summary>
         /// A list of where clauses
@@ -42,7 +42,7 @@ namespace System.Data.Sql.Builder
         /// </summary>
         protected SqlStatement()
         {
-            this.tables = new List<FromClause>();
+            this.tables = new List<IFromClause>();
             this.whereClauses = new List<WhereClause>();
         }
 
@@ -71,7 +71,7 @@ namespace System.Data.Sql.Builder
         /// </summary>
         /// <param name="tables">The tables.</param>
         /// <returns></returns>
-        public T From(params FromClause[] tables)
+        public T From(params IFromClause[] tables)
         {
             this.tables.AddRange(tables);
             return (T)this;
@@ -81,7 +81,7 @@ namespace System.Data.Sql.Builder
         /// Transforms the last table with a function.
         /// </summary>
         /// <param name="transform">The transform.</param>
-        protected void TransformLastTable(Func<FromClause, FromClause> transform)
+        protected void TransformLastTable(Func<IFromClause, IFromClause> transform)
         {
             if (!this.tables.Any())
             {
@@ -134,7 +134,7 @@ namespace System.Data.Sql.Builder
                 foreach (var table in this.tables)
                 {
                     builder.Append(Indentation);
-                    table.BuildSql(builder);
+                    table.BuildFromSql(builder);
                     if (i < this.tables.Count - 1) // Not last clause
                     {
                         builder.AppendLine(SeparatorNoSpace);

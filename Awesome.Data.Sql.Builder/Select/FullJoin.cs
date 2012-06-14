@@ -16,7 +16,7 @@ namespace System.Data.Sql.Builder.Select
         /// <param name="firstTable">The first table.</param>
         /// <param name="secondTable">The second table.</param>
         /// <param name="onClause">The on clause.</param>
-        public FullJoin(FromClause firstTable, FromClause secondTable, string onClause)
+        public FullJoin(IFromClause firstTable, IFromClause secondTable, string onClause)
             : base(firstTable, secondTable, onClause)
         {
         }

@@ -337,5 +337,21 @@ GROUP BY
             Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
     (SELECT COUNT(*) FROM Users) AS UserCount"));
         }
+
+        [Test]
+        public void When_selecting_from_other_select_Then_outputs_properly()
+        {
+            var temp = SqlStatements.Select("u.ID").From("Users u").As("Sub");
+            var statement = SqlStatements.Select("*").From(temp);
+            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+    *
+FROM
+    (
+SELECT
+    u.ID
+FROM
+    Users u
+    ) Sub"));
+        }
     }
 }

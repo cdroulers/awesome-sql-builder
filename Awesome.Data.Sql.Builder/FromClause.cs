@@ -8,7 +8,7 @@ namespace System.Data.Sql.Builder
     /// <summary>
     ///     Represents FROM table or join or sub-select in an SQL statement.
     /// </summary>
-    public abstract class FromClause : ICloneable, ISqlFragment
+    public abstract class FromClause : IFromClause
     {
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -25,7 +25,7 @@ namespace System.Data.Sql.Builder
         /// Clones this instance.
         /// </summary>
         /// <returns></returns>
-        public abstract FromClause CloneFrom();
+        public abstract IFromClause CloneFrom();
 
         /// <summary>
         /// Returns the SQL for the current object.
@@ -45,5 +45,19 @@ namespace System.Data.Sql.Builder
         {
             return new TableClause(s);
         }
+
+        /// <summary>
+        /// Adds the SQL for the current object to the builder
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        public void BuildFromSql(StringBuilder builder)
+        {
+            this.BuildSql(builder);
+        }
+
+        /// <summary>
+        /// Gets the alias of the from clause.
+        /// </summary>
+        public string Alias { get; protected set; }
     }
 }
