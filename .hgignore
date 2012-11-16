@@ -4,6 +4,6 @@ syntax: glob
 bin/
 obj/
 packages/*
-nuget.exe
+NuGet.exe
 builds/
 *.user
