@@ -10,13 +10,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9414F839-79C3-4E20-896E-161D79BAC204}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\nuget.exe = .nuget\nuget.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4508FC8C-6D4D-4D81-85BC-A6E547B15FB1}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.travis.yml = .travis.yml
 		LICENSE = LICENSE
 		publish.ps1 = publish.ps1
 		README.md = README.md

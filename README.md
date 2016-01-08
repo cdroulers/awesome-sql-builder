@@ -1,5 +1,7 @@
 # Awesome.Data.Sql.Builder
 
+Travis CI: [![Build Status](https://travis-ci.org/cdroulers/awesome-sql-builder.svg)](https://travis-ci.org/cdroulers/awesome-sql-builder)
+
 A small library for building SQL queries in a better way than regular string concatenation.
 
 Clauses can be added in any order.
@@ -26,7 +28,7 @@ var sql = statement.ToSql();
 
 Assert.That(
     sql,
-    Is.EqualTo(@"SELECT
+    SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u

@@ -1,4 +1,5 @@
 ﻿using Awesome.Data.Sql.Builder.Select;
+using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
 using NUnit.Framework;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
@@ -14,7 +15,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             Assert.That(
                 join.ToSql(), 
-                Is.EqualTo(@"Lol l
+                SqlCompareConstraint.EqualTo(@"Lol l
     OUTER JOIN Wat w ON l.WatID = w.ID"));
         }
 
@@ -27,7 +28,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             Assert.That(
                 innerJoin.ToSql(), 
-                Is.EqualTo(@"Lol l
+                SqlCompareConstraint.EqualTo(@"Lol l
     OUTER JOIN Wat w ON l.WatID = w.ID
     INNER JOIN Derp d ON l.DerpID = d.ID"));
         }
@@ -42,8 +43,8 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
             var fullJoin = new FullJoin(innerJoin, new TableClause("Herp h"), "l.HerpID = h.ID");
 
             Assert.That(
-                fullJoin.ToSql(), 
-                Is.EqualTo(@"Lol l
+                fullJoin.ToSql(),
+                SqlCompareConstraint.EqualTo(@"Lol l
     OUTER JOIN Wat w ON l.WatID = w.ID
     INNER JOIN Derp d ON l.DerpID = d.ID
     FULL JOIN Herp h ON l.HerpID = h.ID"));
