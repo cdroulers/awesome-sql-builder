@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
+using NUnit.Framework;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
 {
@@ -12,7 +13,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
             FromClause clause = "Teams t";
 
             Assert.That(clause, Is.InstanceOf<TableClause>());
-            Assert.That(clause.ToSql(), Is.EqualTo("Teams t"));
+            Assert.That(clause.ToSql(), SqlCompareConstraint.EqualTo("Teams t"));
         }
 
         [Test]
@@ -22,7 +23,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
             clause.As("t");
 
             Assert.That(clause, Is.InstanceOf<TableClause>());
-            Assert.That(clause.ToSql(), Is.EqualTo("Teams t"));
+            Assert.That(clause.ToSql(), SqlCompareConstraint.EqualTo("Teams t"));
         }
     }
 }

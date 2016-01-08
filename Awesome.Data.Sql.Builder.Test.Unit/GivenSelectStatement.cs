@@ -1,4 +1,5 @@
 ﻿using Awesome.Data.Sql.Builder.Select;
+using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
 using NUnit.Framework;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
@@ -20,7 +21,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             Assert.That(
                 sql,
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -45,7 +46,7 @@ ORDER BY
 
             Assert.That(
                 sql,
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -70,7 +71,7 @@ LIMIT 3 OFFSET 6"));
 
             Assert.That(
                 sql,
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -94,7 +95,7 @@ ORDER BY
 
             Assert.That(
                 sql,
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -119,7 +120,7 @@ ORDER BY
 
             Assert.That(
                 sql,
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -143,7 +144,7 @@ ORDER BY
 
             Assert.That(
                 sql,
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -161,7 +162,7 @@ ORDER BY
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u"));
@@ -174,13 +175,13 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u"));
             Assert.That(
                 clone.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress, u.IsCool
 FROM
     Users u,
@@ -215,16 +216,16 @@ LIMIT 1 OFFSET 2";
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(resultStatement));
+                SqlCompareConstraint.EqualTo(resultStatement));
 
             var clone = statement.Clone();
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(resultStatement));
+                SqlCompareConstraint.EqualTo(resultStatement));
             Assert.That(
                 clone.ToSql(),
-                Is.EqualTo(resultStatement));
+                SqlCompareConstraint.EqualTo(resultStatement));
         }
 
         [Test]
@@ -235,7 +236,7 @@ LIMIT 1 OFFSET 2";
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u"));
@@ -243,7 +244,7 @@ FROM
             statement.Columns(true, "u.ID");
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID
 FROM
     Users u"));
@@ -258,7 +259,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -274,7 +275,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -290,7 +291,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -306,7 +307,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -322,7 +323,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -340,7 +341,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -358,7 +359,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     u.ID, COUNT(*)
 FROM
     Users u
@@ -373,7 +374,7 @@ GROUP BY
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     (SELECT COUNT(*) FROM Users) AS UserCount"));
         }
 
@@ -384,7 +385,7 @@ GROUP BY
             var statement = SqlStatements.Select("*").From(temp);
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     *
 FROM
     (
@@ -408,7 +409,7 @@ FROM
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     *
 FROM
     (
@@ -448,7 +449,7 @@ WHERE
 
             Assert.That(
                 statement.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     *
 FROM
     (

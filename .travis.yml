@@ -1,0 +1,7 @@
+language: csharp
+solution: Awesome.Data.Sql.Builder.sln
+install:
+  - nuget restore ./Awesome.Data.Sql.Builder.sln -OutputDirectory ./packages
+script:
+  - xbuild /p:Configuration=Release Awesome.Data.Sql.Builder.sln
+  - mono ./packages/NUnit.Runners.*/tools/nunit-console.exe ./Awesome.Data.Sql.Builder.Test.Unit/bin/Release/Awesome.Data.Sql.Builder.Test.Unit.dll

@@ -1,4 +1,5 @@
 ﻿using Awesome.Data.Sql.Builder.Select;
+using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
 using NUnit.Framework;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
@@ -16,7 +17,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             Assert.That(
                 union.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     *
 FROM
     Users u
@@ -38,7 +39,7 @@ FROM
 
             Assert.That(
                 union.ToSql(),
-                Is.EqualTo(@"SELECT
+                SqlCompareConstraint.EqualTo(@"SELECT
     *
 FROM
     Users u
