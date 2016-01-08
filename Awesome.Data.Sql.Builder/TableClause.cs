@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Awesome.Data.Sql.Builder.Renderers;
 
 namespace Awesome.Data.Sql.Builder
 {
@@ -44,8 +45,9 @@ namespace Awesome.Data.Sql.Builder
         /// <summary>
         /// Returns the FROM clause as SQL.
         /// </summary>
-        /// <returns></returns>
-        public override void BuildSql(StringBuilder builder)
+        /// <param name="builder">The builder.</param>
+        /// <param name="renderer">The renderer.</param>
+        public override void BuildSql(StringBuilder builder, ISqlRenderer renderer)
         {
             builder.Append(this.Name + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
         }

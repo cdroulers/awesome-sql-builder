@@ -68,6 +68,7 @@
     <Compile Include="GivenJoinClause.cs" />
     <Compile Include="GivenSelectStatement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\GivenSqlServer2012SqlRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Awesome.Data.Sql.Builder\Awesome.Data.Sql.Builder.csproj">

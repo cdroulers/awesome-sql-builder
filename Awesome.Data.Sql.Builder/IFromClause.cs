@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 
 namespace Awesome.Data.Sql.Builder
 {
@@ -9,20 +8,19 @@ namespace Awesome.Data.Sql.Builder
     public interface IFromClause : ICloneable, ISqlFragment
     {
         /// <summary>
-        /// Adds the SQL for the current object to the builder
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        void BuildFromSql(StringBuilder builder);
-
-        /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A cloned instance.</returns>
         IFromClause CloneFrom();
 
         /// <summary>
         /// Gets the alias of the from clause.
         /// </summary>
         string Alias { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is complex and requires wrapping in a select statement.
+        /// </summary>
+        bool IsComplex { get; }
     }
 }
