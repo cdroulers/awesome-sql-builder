@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace System.Data.Sql.Builder
+namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     Represents any part of a full SQL query.

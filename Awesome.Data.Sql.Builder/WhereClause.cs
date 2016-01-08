@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace System.Data.Sql.Builder
+namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     Represents an SQL where clause in an SQL statement.
@@ -14,6 +11,7 @@ namespace System.Data.Sql.Builder
         ///     The clause of the WHERE statement
         /// </summary>
         public readonly string Clause;
+
         /// <summary>
         ///     If the condition between this clause and the next is an SQL OR or AND
         /// </summary>

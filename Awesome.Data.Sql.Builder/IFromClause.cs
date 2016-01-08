@@ -1,6 +1,7 @@
+using System;
 using System.Text;
 
-namespace System.Data.Sql.Builder
+namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     Interface for from clauses.

@@ -1,0 +1,14 @@
+; Top-most EditorConfig file
+root = true
+
+; newlines
+[*]
+end_of_line = CRLF
+indent_style = space
+indent_size = 4
+
+[*.xml]
+indent_size = 4
+
+[*.tsv]
+indent_style = tab

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace System.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     An SQL Join clause.
@@ -16,10 +13,12 @@ namespace System.Data.Sql.Builder.Select
         ///     The first clause to join on.
         /// </summary>
         public readonly IFromClause FirstTable;
+
         /// <summary>
         ///     The second clause to join on.
         /// </summary>
         public readonly IFromClause SecondTable;
+
         /// <summary>
         ///     The ON clause to join the two tables.
         /// </summary>

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Sql.Builder.Select;
+﻿using System.Text;
+using Awesome.Data.Sql.Builder.Select;
 
-namespace System.Data.Sql.Builder
+namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     Extensions for awesomeness!

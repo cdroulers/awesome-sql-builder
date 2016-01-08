@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Awesome.Data.Sql.Builder.Select;
 using NUnit.Framework;
-using System.Data.Sql.Builder.Select;
-using System.Data.Sql.Builder;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
 {
@@ -19,7 +14,9 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
             var second = SqlStatements.Select("*").From("Teams t");
             var union = new UnionOperation(first, second, true);
 
-            Assert.That(union.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                union.ToSql(),
+                Is.EqualTo(@"SELECT
     *
 FROM
     Users u
@@ -39,7 +36,9 @@ FROM
             var second = SqlStatements.Select("*").From("Teams t");
             var union = new UnionOperation(first, second);
 
-            Assert.That(union.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                union.ToSql(),
+                Is.EqualTo(@"SELECT
     *
 FROM
     Users u

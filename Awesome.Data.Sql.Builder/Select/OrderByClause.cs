@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace System.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     Represents an ORDER BY column in an SQL statement.
@@ -14,6 +11,7 @@ namespace System.Data.Sql.Builder.Select
         ///     The column to order by
         /// </summary>
         public readonly string Column;
+
         /// <summary>
         ///     Whether to order in ascending or descending order.
         /// </summary>

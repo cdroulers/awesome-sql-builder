@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace System.Data.Sql.Builder.Select
+﻿namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     /// An SQL Left Outer Join

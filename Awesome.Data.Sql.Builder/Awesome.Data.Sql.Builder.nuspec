@@ -22,7 +22,7 @@ using this tokenized nuspec file.
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
-    <projectUrl>http://code.google.com/p/awesome-sql-builder/</projectUrl>
+    <projectUrl>https://github.com/cdroulers/awesome-sql-builder</projectUrl>
   </metadata>
   <files />
 </package>

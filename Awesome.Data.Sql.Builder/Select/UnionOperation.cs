@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace System.Data.Sql.Builder.Select
+﻿namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     The SQL UNION operation
@@ -27,11 +22,18 @@ namespace System.Data.Sql.Builder.Select
             this.All = all;
         }
 
+        /// <summary>
+        /// Gets the set operator of the operation
+        /// </summary>
         protected override string SetOperator
         {
             get { return "UNION" + (this.All ? " ALL" : string.Empty); }
         }
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns>A cloned instance.</returns>
         public override UnionOperation Clone()
         {
             return new UnionOperation((ISetQuery)this.First.Clone(), (ISetQuery)this.Second.Clone(), this.All);

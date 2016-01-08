@@ -8,7 +8,7 @@
     <ProjectGuid>{C74D3E5E-201B-4322-A460-98590D29BA73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Data.Sql.Builder</RootNamespace>
+    <RootNamespace>Awesome.Data.Sql.Builder</RootNamespace>
     <AssemblyName>Awesome.Data.Sql.Builder</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

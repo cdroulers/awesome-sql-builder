@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace System.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     An SQL SET operation
@@ -15,12 +13,16 @@ namespace System.Data.Sql.Builder.Select
         /// <summary>
         ///     First query
         /// </summary>
-        public readonly ISetQuery First;
+        protected readonly ISetQuery First;
+
         /// <summary>
         ///     Second query
         /// </summary>
-        public readonly ISetQuery Second;
+        protected readonly ISetQuery Second;
 
+        /// <summary>
+        ///     Gets the set operator of the operation
+        /// </summary>
         protected abstract string SetOperator { get; }
 
         /// <summary>
@@ -34,6 +36,10 @@ namespace System.Data.Sql.Builder.Select
             this.Second = second;
         }
 
+        /// <summary>
+        /// Adds the SQL for the current object to the builder
+        /// </summary>
+        /// <param name="builder">The builder.</param>
         public void BuildFromSql(StringBuilder builder)
         {
             builder.AppendLine("(");

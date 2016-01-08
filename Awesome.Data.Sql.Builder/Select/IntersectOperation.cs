@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace System.Data.Sql.Builder.Select
+﻿namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     The SQL INTERSECT operation
@@ -27,11 +22,18 @@ namespace System.Data.Sql.Builder.Select
             this.All = all;
         }
 
+        /// <summary>
+        /// Gets the set operator of the operation
+        /// </summary>
         protected override string SetOperator
         {
             get { return "INTERSECT" + (this.All ? " ALL" : string.Empty); }
         }
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns>A cloned instance.</returns>
         public override IntersectOperation Clone()
         {
             return new IntersectOperation((ISetQuery)this.First.Clone(), (ISetQuery)this.Second.Clone());

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace System.Data.Sql.Builder
+namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     A simple table clause
@@ -60,9 +57,17 @@ namespace System.Data.Sql.Builder
         /// <returns></returns>
         public bool Equals(TableClause other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.Name, Name);
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(other.Name, this.Name);
         }
 
         /// <summary>
@@ -74,10 +79,22 @@ namespace System.Data.Sql.Builder
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(TableClause)) return false;
-            return Equals((TableClause)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != typeof(TableClause))
+            {
+                return false;
+            }
+
+            return this.Equals((TableClause)obj);
         }
 
         /// <summary>
@@ -88,7 +105,7 @@ namespace System.Data.Sql.Builder
         /// </returns>
         public override int GetHashCode()
         {
-            return (Name != null ? Name.GetHashCode() : 0);
+            return this.Name != null ? this.Name.GetHashCode() : 0;
         }
 
         /// <summary>
@@ -99,7 +116,7 @@ namespace System.Data.Sql.Builder
         /// </returns>
         public override string ToString()
         {
-            return string.Format("Name: {0}", Name);
+            return string.Format("Name: {0}", this.Name);
         }
     }
 }

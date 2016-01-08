@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace System.Data.Sql.Builder
+namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     Represents FROM table or join or sub-select in an SQL statement.
@@ -35,7 +33,7 @@ namespace System.Data.Sql.Builder
         public abstract void BuildSql(StringBuilder builder);
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="System.Data.Sql.Builder.FromClause"/>.
+        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="FromClause"/>.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns>

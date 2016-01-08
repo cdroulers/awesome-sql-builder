@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Sql.Builder;
-using System.Data.Sql.Builder.Select;
-using System.Linq;
-using System.Text;
+﻿using Awesome.Data.Sql.Builder.Select;
 using NUnit.Framework;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
@@ -15,7 +10,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
         [Test]
         public void When_selecting_Then_builds_properly()
         {
-            var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
+            var statement = new SelectStatement(new[] { "u.ID", "u.Name", "u.EmailAddress" })
                 .From("Users u")
                 .Where("u.IsCool = TRUE")
                 .Where("u.Name LIKE @Query")
@@ -23,7 +18,9 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             var sql = statement.ToSql();
 
-            Assert.That(sql, Is.EqualTo(@"SELECT
+            Assert.That(
+                sql,
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -37,7 +34,7 @@ ORDER BY
         [Test]
         public void When_selecting_with_limit_and_offset_Then_builds_properly()
         {
-            var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
+            var statement = new SelectStatement(new[] { "u.ID", "u.Name", "u.EmailAddress" })
                 .From("Users u")
                 .Where("u.IsCool = TRUE")
                 .Where("u.Name LIKE @Query")
@@ -46,7 +43,9 @@ ORDER BY
 
             var sql = statement.ToSql();
 
-            Assert.That(sql, Is.EqualTo(@"SELECT
+            Assert.That(
+                sql,
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -61,15 +60,17 @@ LIMIT 3 OFFSET 6"));
         [Test]
         public void When_selecting_with_or_Then_builds_properly()
         {
-            var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
+            var statement = new SelectStatement(new[] { "u.ID", "u.Name", "u.EmailAddress" })
                 .From("Users u")
-                .Where("u.IsCool = TRUE", or: true)
+                .Where("u.IsCool = TRUE", true)
                 .Where("u.Name LIKE @Query")
                 .OrderBy("u.Name", false);
 
             var sql = statement.ToSql();
 
-            Assert.That(sql, Is.EqualTo(@"SELECT
+            Assert.That(
+                sql,
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -83,7 +84,7 @@ ORDER BY
         [Test]
         public void When_selecting_not_in_order_Then_builds_properly()
         {
-            var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
+            var statement = new SelectStatement(new[] { "u.ID", "u.Name", "u.EmailAddress" })
                 .Where("u.IsCool = TRUE")
                 .From("Users u")
                 .Where("u.Name LIKE @Query")
@@ -91,7 +92,9 @@ ORDER BY
 
             var sql = statement.ToSql();
 
-            Assert.That(sql, Is.EqualTo(@"SELECT
+            Assert.That(
+                sql,
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -105,7 +108,7 @@ ORDER BY
         [Test]
         public void When_selecting_not_in_order_with_multiple_order_by_Then_builds_properly()
         {
-            var statement = new SelectStatement(new string[] { "u.ID", "u.Name", "u.EmailAddress" })
+            var statement = new SelectStatement(new[] { "u.ID", "u.Name", "u.EmailAddress" })
                 .Where("u.IsCool = TRUE")
                 .OrderBy("u.EmailAddress")
                 .From("Users u")
@@ -114,7 +117,9 @@ ORDER BY
 
             var sql = statement.ToSql();
 
-            Assert.That(sql, Is.EqualTo(@"SELECT
+            Assert.That(
+                sql,
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -136,7 +141,9 @@ ORDER BY
 
             var sql = statement.ToSql();
 
-            Assert.That(sql, Is.EqualTo(@"SELECT
+            Assert.That(
+                sql,
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u
@@ -152,7 +159,9 @@ ORDER BY
             var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
                 .From("Users u");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u"));
@@ -163,11 +172,15 @@ FROM
                 .Where("u.Name = @Query")
                 .OrderBy("u.Name", false);
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u"));
-            Assert.That(clone.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                clone.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress, u.IsCool
 FROM
     Users u,
@@ -200,12 +213,18 @@ ORDER BY
     u.Name ASC
 LIMIT 1 OFFSET 2";
 
-            Assert.That(statement.ToSql(), Is.EqualTo(resultStatement));
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(resultStatement));
 
             var clone = statement.Clone();
 
-            Assert.That(statement.ToSql(), Is.EqualTo(resultStatement));
-            Assert.That(clone.ToSql(), Is.EqualTo(resultStatement));
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(resultStatement));
+            Assert.That(
+                clone.ToSql(),
+                Is.EqualTo(resultStatement));
         }
 
         [Test]
@@ -214,13 +233,17 @@ LIMIT 1 OFFSET 2";
             var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
                 .From("Users u");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, u.Name, u.EmailAddress
 FROM
     Users u"));
 
             statement.Columns(true, "u.ID");
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID
 FROM
     Users u"));
@@ -233,7 +256,9 @@ FROM
                 .From("Users u")
                 .OuterJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -247,7 +272,9 @@ FROM
                 .From("Users u")
                 .InnerJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -261,7 +288,9 @@ FROM
                 .From("Users u")
                 .LeftOuterJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -275,7 +304,9 @@ FROM
                 .From("Users u")
                 .RightOuterJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -289,7 +320,9 @@ FROM
                 .From("Users u")
                 .FullJoin(new TableClause("Teams t"), "u.TeamID = t.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -305,7 +338,9 @@ FROM
                 .OuterJoin(new TableClause("Settings s"), "u.SettingID = s.ID")
                 .LeftOuterJoin(new TableClause("Parameters p"), "u.ParameterID = p.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, t.ID
 FROM
     Users u
@@ -321,7 +356,9 @@ FROM
                 .From("Users u")
                 .GroupBy("u.ID");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     u.ID, COUNT(*)
 FROM
     Users u
@@ -334,7 +371,9 @@ GROUP BY
         {
             var statement = SqlStatements.Select("(SELECT COUNT(*) FROM Users) AS UserCount");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     (SELECT COUNT(*) FROM Users) AS UserCount"));
         }
 
@@ -343,7 +382,9 @@ GROUP BY
         {
             var temp = SqlStatements.Select("u.ID").From("Users u").As("Sub");
             var statement = SqlStatements.Select("*").From(temp);
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     *
 FROM
     (
@@ -365,7 +406,9 @@ FROM
                 .From(firstUnion.Union(secondUnion, all: true).Union(thirdUnion).As("Sub"))
                 .Where("ID > 3");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     *
 FROM
     (
@@ -403,7 +446,9 @@ WHERE
                 .From(first.Intersect(second).Except(third, all: true).As("Sub"))
                 .Where("ID > 3");
 
-            Assert.That(statement.ToSql(), Is.EqualTo(@"SELECT
+            Assert.That(
+                statement.ToSql(),
+                Is.EqualTo(@"SELECT
     *
 FROM
     (

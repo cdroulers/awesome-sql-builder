@@ -10,6 +10,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Awesome.Data.Sql.Builder.Test.Unit")]
 
-
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("d2f0e486-cd6c-471d-843b-951c382baaba")]

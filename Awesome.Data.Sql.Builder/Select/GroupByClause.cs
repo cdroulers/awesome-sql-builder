@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace System.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     Represents an GROUP BY column in an SQL statement.
@@ -45,7 +42,7 @@ namespace System.Data.Sql.Builder.Select
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="System.Data.Sql.Builder.Select.GroupByClause"/>.
+        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="GroupByClause"/>.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns>

@@ -1,41 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace System.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
     ///     Represents an SQL statement
     /// </summary>
-    public class SelectStatement : SqlStatement<SelectStatement>, IFromClause, ISetQuery
+    public class SelectStatement : SqlStatement<SelectStatement>, ISetQuery
     {
         private readonly List<string> columnsList;
+        private readonly List<GroupByClause> groupByClauses;
+        private readonly List<OrderByClause> orderByClauses;
+        private string limitClause;
+        private string offsetClause;
+
         /// <summary>
         /// Returns
         /// </summary>
-        public ReadOnlyCollection<string> ColumnsList { get { return new ReadOnlyCollection<string>(this.columnsList); } }
-        private readonly List<GroupByClause> groupByClauses;
+        public ReadOnlyCollection<string> ColumnsList
+        {
+            get { return new ReadOnlyCollection<string>(this.columnsList); }
+        }
+
         /// <summary>
         /// Returns a list of group by clauses.
         /// </summary>
-        public ReadOnlyCollection<GroupByClause> GroupByClauses { get { return new ReadOnlyCollection<GroupByClause>(this.groupByClauses); } }
-        private readonly List<OrderByClause> orderByClauses;
+        public ReadOnlyCollection<GroupByClause> GroupByClauses
+        {
+            get { return new ReadOnlyCollection<GroupByClause>(this.groupByClauses); }
+        }
+
         /// <summary>
         /// Returns a list of order by clauses.
         /// </summary>
-        public ReadOnlyCollection<OrderByClause> OrderByClauses { get { return new ReadOnlyCollection<OrderByClause>(this.orderByClauses); } }
-        private string limitClause;
+        public ReadOnlyCollection<OrderByClause> OrderByClauses
+        {
+            get { return new ReadOnlyCollection<OrderByClause>(this.orderByClauses); }
+        }
+
         /// <summary>
         /// Gets the limit clause
         /// </summary>
-        public string LimitClause { get { return this.limitClause; } }
-        private string offsetClause;
+        public string LimitClause
+        {
+            get { return this.limitClause; }
+        }
+
         /// <summary>
         /// Gets the offset clause
         /// </summary>
-        public string OffsetClause { get { return this.offsetClause; } }
+        public string OffsetClause
+        {
+            get { return this.offsetClause; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectStatement"/> class.
@@ -80,6 +99,7 @@ namespace System.Data.Sql.Builder.Select
             {
                 this.columnsList.Clear();
             }
+
             this.columnsList.AddRange(columns);
             return this;
         }
@@ -96,6 +116,7 @@ namespace System.Data.Sql.Builder.Select
             {
                 this.groupByClauses.Clear();
             }
+
             this.groupByClauses.Add(column);
             return this;
         }
@@ -123,6 +144,7 @@ namespace System.Data.Sql.Builder.Select
             {
                 this.orderByClauses.Clear();
             }
+
             this.orderByClauses.Add(new OrderByClause(column, asc));
             return this;
         }
@@ -341,6 +363,7 @@ namespace System.Data.Sql.Builder.Select
             {
                 builder.AppendFormat("LIMIT {0} ", this.limitClause);
             }
+
             if (!string.IsNullOrWhiteSpace(this.offsetClause))
             {
                 builder.AppendFormat("OFFSET {0} ", this.offsetClause);

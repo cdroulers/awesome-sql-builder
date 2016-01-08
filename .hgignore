@@ -1,9 +1,0 @@
-syntax: glob
-*ReSharper*
-*.suo
-bin/
-obj/
-packages/*
-NuGet.exe
-builds/
-*.user
