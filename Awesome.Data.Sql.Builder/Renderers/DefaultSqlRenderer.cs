@@ -65,6 +65,11 @@ namespace Awesome.Data.Sql.Builder.Renderers
             return string.Join(Separator, columns);
         }
 
+        /// <summary>
+        /// Renders the select.
+        /// </summary>
+        /// <param name="select">The select.</param>
+        /// <returns></returns>
         public virtual string RenderSelect(SelectStatement select)
         {
             var builder = new StringBuilder();
@@ -84,6 +89,11 @@ namespace Awesome.Data.Sql.Builder.Renderers
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Appends the limit offset.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="select">The select.</param>
         public virtual void AppendLimitOffset(StringBuilder builder, SelectStatement select)
         {
             if (!string.IsNullOrWhiteSpace(select.LimitClause) && !string.IsNullOrWhiteSpace(select.OffsetClause))
@@ -100,12 +110,22 @@ namespace Awesome.Data.Sql.Builder.Renderers
             }
         }
 
+        /// <summary>
+        /// Appends the select.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="select">The select.</param>
         public virtual void AppendSelect(StringBuilder builder, SelectStatement select)
         {
             builder.AppendLine("SELECT");
             builder.AppendLine(Indentation + this.Columns(select.ColumnsList));
         }
 
+        /// <summary>
+        /// Appends the group by.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="select">The select.</param>
         public virtual void AppendGroupBy(StringBuilder builder, SelectStatement select)
         {
             if (select.GroupByClauses.Any())
@@ -115,6 +135,11 @@ namespace Awesome.Data.Sql.Builder.Renderers
             }
         }
 
+        /// <summary>
+        /// Appends the order by.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="select">The select.</param>
         public virtual void AppendOrderBy(StringBuilder builder, SelectStatement select)
         {
             if (select.OrderByClauses.Any())

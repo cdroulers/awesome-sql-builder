@@ -81,7 +81,7 @@ namespace Awesome.Data.Sql.Builder
         {
             if (!this.tables.Any())
             {
-                throw new InvalidOperationException(Awesome.Data.Sql.Builder.Properties.Strings.CannotTransformAnEmptyFromClause);
+                throw new InvalidOperationException("The SELECT statement doesn't have any FROM clauses. Cannot transform the last.");
             }
 
             this.tables[this.tables.Count - 1] = transform(this.tables[this.tables.Count - 1]);

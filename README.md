@@ -10,6 +10,8 @@ Mostly for use directly by ADO.NET or micro-ORMs such as Dapper.
 
 ## Installation
 
+[NuGet](https://www.nuget.org/packages/Awesome.Data.Sql.Builder/)
+
 `Install-Package Awesome.Data.Sql.Builder`
 
 ## Usage
@@ -40,6 +42,26 @@ ORDER BY
 LIMIT 3 OFFSET 6"));
 ```
 
+### Different provider
+
+```csharp
+var statement = new SelectStatement(new[] { "u.ID" })
+    .From("Users u")
+    .Limit(3)
+    .Offset(6);
+
+var sql = new SqlServer2012SqlRenderer().RenderSelect(statement);
+
+Assert.That(
+    sql,
+    SqlCompareConstraint.EqualTo(@"SELECT
+    u.ID
+FROM
+    Users u
+OFFSET 6 ROWS
+FETCH NEXT 3 ROWS ONLY"));
+```
+
 ## Contributing
 
 1. Fork it!
@@ -51,7 +73,11 @@ LIMIT 3 OFFSET 6"));
 
 ## History
 
-### 1.0.0 
+### 1.1.0 (2016-01-18)
+
+* Support for different SQL providers (SQL Server in particular) in a pluggable way.
+
+### 1.0.0 (2012-11-16)
 
 * First public version. Supports all basic SQL operations for PostgreSQL.
 
@@ -65,6 +91,6 @@ LGPL: See [LICENSE](LICENSE)
 
 ## Roadmap
 
-### 1.1.0
+### 1.2.0
 
-* Support for different SQL providers (SQL Server in particular) in a pluggable way.
+* ???
