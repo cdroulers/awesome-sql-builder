@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Awesome.Data.Sql.Builder.Renderers;
 
 namespace Awesome.Data.Sql.Builder.Select
 {
@@ -136,15 +137,9 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="column">The column.</param>
         /// <param name="asc">if set to <c>true</c> [asc].</param>
-        /// <param name="clearCurrent">if set to <c>true</c> [clearCurrent]</param>
-        /// <returns></returns>
-        public SelectStatement OrderBy(string column, bool asc = true, bool clearCurrent = false)
+        /// <returns>The same statement for Fluentness</returns>
+        public SelectStatement OrderBy(string column, bool asc = true)
         {
-            if (clearCurrent)
-            {
-                this.orderByClauses.Clear();
-            }
-
             this.orderByClauses.Add(new OrderByClause(column, asc));
             return this;
         }
@@ -152,7 +147,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Clears the order by clauses.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement ClearOrderBy()
         {
             this.orderByClauses.Clear();
@@ -163,7 +158,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Adds a LIMIT clause.
         /// </summary>
         /// <param name="limit">The limit.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement Limit(string limit)
         {
             this.limitClause = limit;
@@ -174,7 +169,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Adds a LIMIT clause.
         /// </summary>
         /// <param name="limit">The limit.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement Limit(int limit)
         {
             return this.Limit(limit.ToString());
@@ -183,7 +178,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Clears the limit clause
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement ClearLimit()
         {
             this.limitClause = null;
@@ -194,7 +189,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Adds a OFFSET clause.
         /// </summary>
         /// <param name="offset">The offset.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement Offset(string offset)
         {
             this.offsetClause = offset;
@@ -205,7 +200,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Adds a OFFSET clause.
         /// </summary>
         /// <param name="offset">The offset.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement Offset(int offset)
         {
             return this.Offset(offset.ToString());
@@ -214,7 +209,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Clears the offset clause
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement ClearOffset()
         {
             this.offsetClause = null;
@@ -226,7 +221,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement OuterJoin(FromClause table, string onClause)
         {
             return this.OuterJoin((IFromClause)table, onClause);
@@ -237,7 +232,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement InnerJoin(FromClause table, string onClause)
         {
             return this.InnerJoin((IFromClause)table, onClause);
@@ -248,7 +243,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement LeftOuterJoin(FromClause table, string onClause)
         {
             return this.LeftOuterJoin((IFromClause)table, onClause);
@@ -259,7 +254,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement RightOuterJoin(FromClause table, string onClause)
         {
             return this.RightOuterJoin((IFromClause)table, onClause);
@@ -270,7 +265,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement FullJoin(FromClause table, string onClause)
         {
             return this.FullJoin((IFromClause)table, onClause);
@@ -281,7 +276,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement OuterJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new OuterJoin(lastClause, table, onClause));
@@ -293,7 +288,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement InnerJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new InnerJoin(lastClause, table, onClause));
@@ -305,7 +300,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement LeftOuterJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new LeftOuterJoin(lastClause, table, onClause));
@@ -317,7 +312,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement RightOuterJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new RightOuterJoin(lastClause, table, onClause));
@@ -329,7 +324,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="onClause">The on clause.</param>
-        /// <returns></returns>
+        /// <returns>The same statement for Fluentness</returns>
         public SelectStatement FullJoin(IFromClause table, string onClause)
         {
             this.TransformLastTable(lastClause => new FullJoin(lastClause, table, onClause));
@@ -339,70 +334,45 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Returns the statement as an SQL string.
         /// </summary>
-        /// <returns></returns>
-        public override void BuildSql(StringBuilder builder)
+        /// <returns>The same statement for Fluentness</returns>
+        public override void BuildSql(StringBuilder builder, ISqlRenderer renderer)
         {
-            builder.AppendLine("SELECT");
-            builder.AppendLine(Indentation + string.Join(Separator, this.columnsList));
-            this.AppendFrom(builder);
-            this.AppendWhere(builder);
-
-            if (this.groupByClauses.Any())
-            {
-                builder.AppendLine("GROUP BY");
-                builder.AppendLine(Indentation + string.Join(Separator, this.groupByClauses.Select(c => c.Column)));
-            }
-
-            if (this.orderByClauses.Any())
-            {
-                builder.AppendLine("ORDER BY");
-                builder.AppendLine(Indentation + string.Join(Separator, this.orderByClauses.Select(c => c.Column + " " + (c.Asc ? "ASC" : "DESC"))));
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.limitClause))
-            {
-                builder.AppendFormat("LIMIT {0} ", this.limitClause);
-            }
-
-            if (!string.IsNullOrWhiteSpace(this.offsetClause))
-            {
-                builder.AppendFormat("OFFSET {0} ", this.offsetClause);
-            }
+            builder.Append(renderer.RenderSelect(this));
         }
 
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A cloned instance.</returns>
         public override SelectStatement Clone()
         {
             return new SelectStatement(this, this.columnsList.ToList(), this.groupByClauses.Select(o => o.Clone()).ToList(), this.orderByClauses.Select(o => o.Clone()).ToList(), this.limitClause, this.offsetClause);
         }
 
         /// <summary>
-        /// Clones from.
+        /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A cloned instance.</returns>
         public IFromClause CloneFrom()
         {
             return this.Clone();
         }
 
         /// <summary>
-        /// Adds the SQL for the current object to the builder
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        public void BuildFromSql(StringBuilder builder)
-        {
-            builder.AppendLine("(");
-            this.BuildSql(builder);
-            builder.Append(Indentation + ")" + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
-        }
-
-        /// <summary>
         /// Gets the alias of the from clause.
         /// </summary>
         public string Alias { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is complex and requires wrapping in a select statement.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is complex; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsComplex
+        {
+            get { return true; }
+        }
 
         /// <summary>
         /// Sets the alias for this statement.
@@ -413,6 +383,15 @@ namespace Awesome.Data.Sql.Builder.Select
         {
             this.Alias = alias;
             return this;
+        }
+
+        /// <summary>
+        /// Returns the equivalent statement for counting the full results without paging.
+        /// </summary>
+        /// <returns>A new SQL statement for counting all items.</returns>
+        public SelectStatement ToCount()
+        {
+            return new SelectStatement(this, new List<string>() { "COUNT(*)" }, this.GroupByClauses.ToList(), new List<OrderByClause>(), null, null);
         }
     }
 }

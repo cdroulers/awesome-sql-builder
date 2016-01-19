@@ -57,6 +57,10 @@
     <Compile Include="FromClause.cs" />
     <Compile Include="IFromClause.cs" />
     <Compile Include="ISqlFragment.cs" />
+    <Compile Include="Renderers\DefaultSqlRenderer.cs" />
+    <Compile Include="Renderers\ISqlRenderer.cs" />
+    <Compile Include="Renderers\SqlServer2012SqlRenderer.cs" />
+    <Compile Include="Renderers\SqlServerSqlRenderer.cs" />
     <Compile Include="Select\ExceptOperation.cs" />
     <Compile Include="Select\IntersectOperation.cs" />
     <Compile Include="Select\GroupByClause.cs" />

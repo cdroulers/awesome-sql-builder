@@ -229,6 +229,30 @@ LIMIT 1 OFFSET 2";
         }
 
         [Test]
+        public void When_getting_count_statement_Then_removes_unnecessary_stuff()
+        {
+            var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")
+                .From("Users u")
+                .Where("u.IsCool IS NULL")
+                .GroupBy("u.ID")
+                .OrderBy("u.Name")
+                .Limit(1).Offset(2);
+
+            var count = statement.ToCount();
+
+            Assert.That(
+                count.ToSql(),
+                SqlCompareConstraint.EqualTo(@"SELECT
+    COUNT(*)
+FROM
+    Users u
+WHERE
+    u.IsCool IS NULL
+GROUP BY
+    u.ID"));
+        }
+
+        [Test]
         public void When_clearing_columns_Then_empties_list()
         {
             var statement = SqlStatements.Select("u.ID, u.Name, u.EmailAddress")

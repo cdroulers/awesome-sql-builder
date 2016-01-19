@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Awesome.Data.Sql.Builder.Renderers;
 
 namespace Awesome.Data.Sql.Builder.Select
 {
@@ -40,11 +41,12 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Adds the SQL for the current object to the builder
         /// </summary>
         /// <param name="builder">The builder.</param>
-        public void BuildFromSql(StringBuilder builder)
+        /// <param name="renderer">The renderer.</param>
+        public void BuildFromSql(StringBuilder builder, ISqlRenderer renderer)
         {
             builder.AppendLine("(");
-            this.BuildSql(builder);
-            builder.Append(SelectStatement.Indentation + ")" + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
+            this.BuildSql(builder, renderer);
+            builder.Append("    )" + (!string.IsNullOrWhiteSpace(this.Alias) ? " " + this.Alias : string.Empty));
         }
 
         /// <summary>
@@ -60,6 +62,17 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Gets the alias of the from clause.
         /// </summary>
         public string Alias { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is complex and requires wrapping in a select statement.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is complex; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsComplex
+        {
+            get { return true; }
+        }
 
         /// <summary>
         /// Sets the alias for this statement.
@@ -95,11 +108,21 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <param name="builder">The builder.</param>
         public void BuildSql(StringBuilder builder)
         {
-            this.First.BuildSql(builder);
+            this.BuildSql(builder, new DefaultSqlRenderer());
+        }
+
+        /// <summary>
+        /// Adds the SQL for the current object to the builder
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="renderer">The SQL renderer to use.</param>
+        public void BuildSql(StringBuilder builder, ISqlRenderer renderer)
+        {
+            this.First.BuildSql(builder, renderer);
             builder.AppendLine();
             builder.AppendLine(this.SetOperator);
             builder.AppendLine();
-            this.Second.BuildSql(builder);
+            this.Second.BuildSql(builder, renderer);
         }
     }
 }

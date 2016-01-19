@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Awesome.Data.Sql.Builder.Renderers;
 using Awesome.Data.Sql.Builder.Select;
 
 namespace Awesome.Data.Sql.Builder
@@ -9,13 +10,15 @@ namespace Awesome.Data.Sql.Builder
     public static class SqlBuilderExtensions
     {
         /// <summary>
-        ///     Returns the statement as an SQL string.
+        /// Returns the statement as an SQL string.
         /// </summary>
-        /// <returns></returns>
-        public static string ToSql(this ISqlFragment self)
+        /// <param name="self">The self.</param>
+        /// <param name="renderer">The renderer.</param>
+        /// <returns>A string of SQL!</returns>
+        public static string ToSql(this ISqlFragment self, ISqlRenderer renderer = null)
         {
             var builder = new StringBuilder();
-            self.BuildSql(builder);
+            self.BuildSql(builder, renderer ?? new DefaultSqlRenderer());
             return builder.ToString().Trim();
         }
 

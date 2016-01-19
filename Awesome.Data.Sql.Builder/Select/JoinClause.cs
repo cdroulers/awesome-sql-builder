@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Awesome.Data.Sql.Builder.Renderers;
 
 namespace Awesome.Data.Sql.Builder.Select
 {
@@ -60,13 +61,14 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Returns the SQL for the current object.
         /// </summary>
-        /// <param name="builder"></param>
-        public override void BuildSql(StringBuilder builder)
+        /// <param name="builder">The builder.</param>
+        /// <param name="renderer">The SQL renderer to use.</param>
+        public override void BuildSql(StringBuilder builder, ISqlRenderer renderer)
         {
-            this.FirstTable.BuildSql(builder);
+            this.FirstTable.BuildSql(builder, renderer);
             builder.AppendLine();
-            builder.Append(SelectStatement.Indentation + this.ClauseName + " JOIN ");
-            this.SecondTable.BuildSql(builder);
+            builder.Append("    " + this.ClauseName + " JOIN ");
+            this.SecondTable.BuildSql(builder, renderer);
             builder.Append(" ON " + this.OnClause);
         }
     }

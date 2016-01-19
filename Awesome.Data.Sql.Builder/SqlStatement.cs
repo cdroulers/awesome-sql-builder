@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Awesome.Data.Sql.Builder.Renderers;
 
 namespace Awesome.Data.Sql.Builder
 {
@@ -13,21 +14,6 @@ namespace Awesome.Data.Sql.Builder
     public abstract class SqlStatement<T> : ICloneable, ISqlFragment
         where T : SqlStatement<T>
     {
-        /// <summary>
-        ///     Indentation to use when indenting query sub-parts.
-        /// </summary>
-        internal const string Indentation = "    ";
-
-        /// <summary>
-        ///     Separator for general things in SQL.
-        /// </summary>
-        protected const string Separator = ", ";
-
-        /// <summary>
-        ///     Separator for general things in SQL at a line end.
-        /// </summary>
-        protected const string SeparatorNoSpace = ",";
-
         private readonly List<IFromClause> tables;
         private readonly List<WhereClause> whereClauses;
 
@@ -116,9 +102,18 @@ namespace Awesome.Data.Sql.Builder
         /// <summary>
         /// Returns the SQL for the current object.
         /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public abstract void BuildSql(StringBuilder builder);
+        /// <param name="builder">The string builder</param>
+        public void BuildSql(StringBuilder builder)
+        {
+            this.BuildSql(builder, new DefaultSqlRenderer());
+        }
+
+        /// <summary>
+        /// Returns the SQL for the current object.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="renderer">The SQL renderer to use.</param>
+        public abstract void BuildSql(StringBuilder builder, ISqlRenderer renderer);
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -129,59 +124,6 @@ namespace Awesome.Data.Sql.Builder
         public override string ToString()
         {
             return this.ToSql();
-        }
-
-        /// <summary>
-        ///     Appends the FROM statement to the builder.
-        /// </summary>
-        /// <returns></returns>
-        protected void AppendFrom(StringBuilder builder)
-        {
-            if (this.tables.Any())
-            {
-                builder.AppendLine("FROM");
-                int i = 0;
-                foreach (var table in this.tables)
-                {
-                    builder.Append(Indentation);
-                    table.BuildFromSql(builder);
-                    if (i < this.tables.Count - 1)
-                    {
-                        builder.AppendLine(SeparatorNoSpace);
-                    }
-
-                    i++;
-                }
-
-                builder.AppendLine();
-            }
-        }
-
-        /// <summary>
-        ///     Appends the WHERE statement to the builder.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        protected void AppendWhere(StringBuilder builder)
-        {
-            if (this.whereClauses.Any())
-            {
-                builder.AppendLine("WHERE");
-                int i = 0;
-                foreach (var clause in this.whereClauses)
-                {
-                    builder.Append(Indentation + clause.Clause);
-                    if (i < this.whereClauses.Count - 1)
-                    {
-                        builder.AppendLine(clause.Or ? " OR" : " AND");
-                    }
-                    else
-                    {
-                        builder.AppendLine();
-                    }
-
-                    i++;
-                }
-            }
         }
 
         /// <summary>
