@@ -8,13 +8,22 @@ Clauses can be added in any order.
 
 Mostly for use directly by ADO.NET or micro-ORMs such as Dapper.
 
+## Awesome.Data.Sql.Builder.OData
+
+A small helper project that allows transforming `ODataQueryOptions<T>` directly into
+a `SelectStatement`.
+
 ## Installation
 
-[NuGet](https://www.nuget.org/packages/Awesome.Data.Sql.Builder/)
+[NuGet Awesome.Data.Sql.Builder](https://www.nuget.org/packages/Awesome.Data.Sql.Builder/)
 
 `Install-Package Awesome.Data.Sql.Builder`
 
-## Usage
+[NuGet Awesome.Data.Sql.Builder.OData](https://www.nuget.org/packages/Awesome.Data.Sql.Builder.OData/)
+
+`Install-Package Awesome.Data.Sql.Builder.OData`
+
+## Awesome.Data.Sql.Builder Usage
 
 Here is a sample unit test from the project.
 
@@ -62,6 +71,32 @@ OFFSET 6 ROWS
 FETCH NEXT 3 ROWS ONLY"));
 ```
 
+## Awesome.Data.Sql.Builder.OData Usage
+
+```csharp
+var options = ODataQueryOptionsHelper.Build<TestDTO>(
+    "$select=Id,Name,Contact/FirstName,Contact/BirthDate,Contact/Address/City&" + 
+    "$expand=Contact,Contact/Address&" +
+    "$top=10&" +
+    "$skip=20");
+var result = new ODataQueryOptionsToSqlStatement().ToSelect(options).First();
+
+Assert.That(
+    result.ColumnsList,
+    Is.EquivalentTo(new[]
+    {
+        "Id",
+        "Name",
+        "Contact/FirstName",
+        "Contact/BirthDate",
+        "Contact/Address/City"
+    }));
+Assert.That(result.LimitClause, Is.EqualTo("10"));
+Assert.That(result.OffsetClause, Is.EqualTo("20"));
+```
+
+Only supports `$select`, `$top`, `$skip` and `$inlinecount=allpages` for now!
+
 ## Contributing
 
 1. Fork it!
@@ -71,7 +106,15 @@ FETCH NEXT 3 ROWS ONLY"));
 1. Push to the branch: `git push origin my-new-feature`
 1. Submit a pull request :D
 
-## History
+## Credits
+
+Author: [cdroulers](https://github.com/cdroulers)
+
+## License
+
+LGPL: See [LICENSE](LICENSE)
+
+## Awesome.Data.Sql.Builder History
 
 ### 1.1.0 (2016-01-18)
 
@@ -81,16 +124,20 @@ FETCH NEXT 3 ROWS ONLY"));
 
 * First public version. Supports all basic SQL operations for PostgreSQL.
 
-## Credits
-
-Author: [cdroulers](https://github.com/cdroulers)
-
-## License
-
-LGPL: See [LICENSE](LICENSE)
-
 ## Roadmap
 
 ### 1.2.0
 
 * ???
+
+## Awesome.Data.Sql.Builder.OData History
+
+### 1.0.0 (2016-01-23)
+
+* First public version. Supports `$select`, `$top`, `$skip` and `$inlinecount=allpages`.
+
+## Roadmap
+
+### 1.1.0
+
+* Support basic `$filter` operations
