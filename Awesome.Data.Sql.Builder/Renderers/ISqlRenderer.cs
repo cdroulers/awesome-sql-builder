@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Awesome.Data.Sql.Builder.Insert;
 using Awesome.Data.Sql.Builder.Select;
 using Awesome.Data.Sql.Builder.Update;
 
@@ -52,6 +53,13 @@ namespace Awesome.Data.Sql.Builder.Renderers
         /// <param name="update">The update.</param>
         /// <returns>The rendered SQL UPDATE clause.</returns>
         string RenderUpdate(UpdateStatement update);
+
+        /// <summary>
+        /// Renders the INSERT statement.
+        /// </summary>
+        /// <param name="insert">The insert statement</param>
+        /// <returns>The rendered SQL INSERT clause.</returns>
+        string RenderInsert(InsertStatement insert);
 
         /// <summary>
         /// Appends the limit and offset clause of the select statement to the builder.

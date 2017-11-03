@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Awesome.Data.Sql.Builder.Insert;
 using Awesome.Data.Sql.Builder.Select;
 using Awesome.Data.Sql.Builder.Update;
 
@@ -284,6 +286,71 @@ namespace Awesome.Data.Sql.Builder.Renderers
             this.AppendUpdate(builder, update);
 
             this.AppendWhere(builder, update);
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Renders an Insert statement to a string.
+        /// </summary>
+        /// <param name="insert">An INSERT statement</param>
+        /// <returns>An SQL String for the INSERT.</returns>
+        public string RenderInsert(InsertStatement insert)
+        {
+            var builder = new StringBuilder();
+            const string doubleIndentation = Indentation + Indentation;
+
+            builder.AppendLine("INSERT INTO " + insert.Table); if (insert.Select != null)
+            {
+                // Columns list
+                builder.AppendLine(Indentation + "(");
+                builder.AppendLine(
+                    doubleIndentation +
+                    string.Join(
+                        SeparatorNoSpace + Environment.NewLine + doubleIndentation,
+                        insert.Select.ColumnsList));
+                builder.AppendLine(Indentation + ")");
+
+                // Select
+                builder.Append(this.RenderSelect(insert.Select));
+            }
+            else if (insert.ColumnsList.Any())
+            {
+                // Columns list
+                builder.AppendLine(Indentation + "(");
+                builder.AppendLine(
+                    doubleIndentation +
+                    string.Join(
+                        SeparatorNoSpace + Environment.NewLine + doubleIndentation,
+                        insert.ColumnsList));
+                builder.AppendLine(Indentation + ")");
+
+                // Rows
+                var rowCount = insert.RowCount.GetValueOrDefault(1);
+                builder.AppendLine("VALUES");
+                for (int i = 0; i < rowCount; i++)
+                {
+                    builder.AppendLine(Indentation + "(");
+                    builder.AppendLine(
+                        doubleIndentation +
+                        string.Join(
+                            SeparatorNoSpace + Environment.NewLine + doubleIndentation,
+                            insert.ColumnsList.Select(x =>
+                                "@" +
+                                x +
+                                (rowCount == 1 ? string.Empty : i.ToString()))));
+                    builder.Append(Indentation + ")");
+
+                    if (i < rowCount - 1)
+                    {
+                        builder.AppendLine(",");
+                    }
+                }
+            }
+            else
+            {
+                throw new NotSupportedException("Cannot render INSERT statement with no columns or no SELECT statement.");
+            }
 
             return builder.ToString();
         }

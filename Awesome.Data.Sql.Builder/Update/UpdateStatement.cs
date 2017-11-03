@@ -38,7 +38,7 @@ namespace Awesome.Data.Sql.Builder.Update
         }
 
         private UpdateStatement(UpdateStatement statement)
-                : base(statement)
+            : base(statement)
         {
             this.columnsList = statement.columnsList.ToList();
         }

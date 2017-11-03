@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contraints\SqlCompareConstraint.cs" />
+    <Compile Include="GivenInsertStatement.cs" />
     <Compile Include="GivenUpdateStatement.cs" />
     <Compile Include="GivenSetOperations.cs" />
     <Compile Include="GivenFromClause.cs" />

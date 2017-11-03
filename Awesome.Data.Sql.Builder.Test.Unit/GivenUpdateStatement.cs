@@ -12,7 +12,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
         [Test]
         public void When_updating_Then_builds_properly()
         {
-            var statement = new UpdateStatement(new[] { "ID", "Name", "EmailAddress" })
+            var statement = SqlStatements.Update("ID", "Name", "EmailAddress")
                 .From("Users")
                 .Where("u.IsCool = TRUE")
                 .Where("u.Name LIKE @Query");
