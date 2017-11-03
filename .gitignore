@@ -7,3 +7,5 @@ packages/*
 NuGet.exe
 builds/
 *.user
+.vs/
+StyleCop.Cache

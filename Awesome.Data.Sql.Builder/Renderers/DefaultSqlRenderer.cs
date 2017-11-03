@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Awesome.Data.Sql.Builder.Select;
+using Awesome.Data.Sql.Builder.Update;
 
 namespace Awesome.Data.Sql.Builder.Renderers
 {
@@ -122,6 +123,57 @@ namespace Awesome.Data.Sql.Builder.Renderers
         }
 
         /// <summary>
+        /// Appends the update statement.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="update">The update statement.</param>
+        public virtual void AppendUpdate(StringBuilder builder, UpdateStatement update)
+        {
+            builder.Append("UPDATE");
+            if (string.IsNullOrWhiteSpace(update.TableToUpdate))
+            {
+                builder.Append(" ");
+                update.Tables.First().BuildSql(builder, this);
+            }
+            else
+            {
+                builder.Append(" " + update.TableToUpdate);
+            }
+
+            builder.AppendLine();
+            this.AppendUpdateColumns(builder, update);
+
+            if (!string.IsNullOrWhiteSpace(update.TableToUpdate))
+            {
+                this.AppendFrom(builder, update);
+            }
+        }
+
+        /// <summary>
+        /// Appends the update statement columns' SET clauses
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="update">The update statement.</param>
+        public virtual void AppendUpdateColumns(StringBuilder builder, UpdateStatement update)
+        {
+            builder.AppendLine("SET");
+            var i = 0;
+            foreach (var column in update.ColumnsList)
+            {
+                builder.Append(Indentation + column + " = @" + column);
+
+                if (i < update.ColumnsList.Count - 1)
+                {
+                    builder.AppendLine(SeparatorNoSpace);
+                }
+
+                i++;
+            }
+
+            builder.AppendLine();
+        }
+
+        /// <summary>
         /// Appends the group by.
         /// </summary>
         /// <param name="builder">The builder.</param>
@@ -153,17 +205,18 @@ namespace Awesome.Data.Sql.Builder.Renderers
         /// Appends the from clause of the select statement to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="select">The select.</param>
-        public virtual void AppendFrom(StringBuilder builder, SelectStatement select)
+        /// <param name="statement">The statement.</param>
+        public virtual void AppendFrom<T>(StringBuilder builder, SqlStatement<T> statement)
+            where T : SqlStatement<T>
         {
-            if (!select.Tables.Any())
+            if (!statement.Tables.Any())
             {
                 return;
             }
 
             builder.AppendLine("FROM");
             int i = 0;
-            foreach (var table in select.Tables)
+            foreach (var table in statement.Tables)
             {
                 builder.Append(Indentation);
                 if (table.IsComplex)
@@ -177,7 +230,7 @@ namespace Awesome.Data.Sql.Builder.Renderers
                     table.BuildSql(builder, this);
                 }
 
-                if (i < select.Tables.Count - 1)
+                if (i < statement.Tables.Count - 1)
                 {
                     builder.AppendLine(SeparatorNoSpace);
                 }
@@ -192,20 +245,21 @@ namespace Awesome.Data.Sql.Builder.Renderers
         /// Appends the where clause of the select statement to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="select">The select.</param>
-        public virtual void AppendWhere(StringBuilder builder, SelectStatement select)
+        /// <param name="statement">The whereable statement.</param>
+        public virtual void AppendWhere<T>(StringBuilder builder, SqlStatement<T> statement)
+            where T : SqlStatement<T>
         {
-            if (!select.WhereClauses.Any())
+            if (!statement.WhereClauses.Any())
             {
                 return;
             }
 
             builder.AppendLine("WHERE");
             int i = 0;
-            foreach (var clause in select.WhereClauses)
+            foreach (var clause in statement.WhereClauses)
             {
                 builder.Append(Indentation + clause.Clause);
-                if (i < select.WhereClauses.Count - 1)
+                if (i < statement.WhereClauses.Count - 1)
                 {
                     builder.AppendLine(clause.Or ? " OR" : " AND");
                 }
@@ -216,6 +270,22 @@ namespace Awesome.Data.Sql.Builder.Renderers
 
                 i++;
             }
+        }
+
+        /// <summary>
+        /// Renders an Update statement to a string.
+        /// </summary>
+        /// <param name="update">An UPDATE statement</param>
+        /// <returns>An SQL String for the UPDATE.</returns>
+        public string RenderUpdate(UpdateStatement update)
+        {
+            var builder = new StringBuilder();
+
+            this.AppendUpdate(builder, update);
+
+            this.AppendWhere(builder, update);
+
+            return builder.ToString();
         }
     }
 }

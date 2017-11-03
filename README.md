@@ -25,6 +25,8 @@ a `SelectStatement`.
 
 ## Awesome.Data.Sql.Builder Usage
 
+### SELECT Statement
+
 Here is a sample unit test from the project.
 
 ```csharp
@@ -50,6 +52,31 @@ ORDER BY
     u.Name DESC
 LIMIT 3 OFFSET 6"));
 ```
+
+### UPDATE Statement
+
+Sample unit test!
+
+```csharp
+var statement = new UpdateStatement(new[] { "ID", "Name", "EmailAddress" })
+    .From("Users")
+    .Where("u.IsCool = TRUE")
+    .Where("u.Name LIKE @Query");
+
+var sql = statement.ToSql();
+
+Assert.That(
+    sql,
+    SqlCompareConstraint.EqualTo(@"UPDATE Users
+SET
+    ID = @ID,
+    Name = @Name,
+    EmailAddress = @EmailAddress
+WHERE
+    u.IsCool = TRUE AND
+    u.Name LIKE @Query"));
+```
+
 
 ### Different provider
 

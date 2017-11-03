@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Awesome.Data.Sql.Builder.Renderers;
+using Awesome.Data.Sql.Builder.Select;
 
 namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
     ///     The basics of an SQL statement.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">A type reference to the implementation type for fluentness!</typeparam>
     public abstract class SqlStatement<T> : ICloneable, ISqlFragment
         where T : SqlStatement<T>
     {
@@ -70,6 +71,121 @@ namespace Awesome.Data.Sql.Builder
         public T From(params IFromClause[] newTables)
         {
             this.tables.AddRange(newTables);
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Performs an OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T OuterJoin(FromClause table, string onClause)
+        {
+            return this.OuterJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs an INNER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T InnerJoin(FromClause table, string onClause)
+        {
+            return this.InnerJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs a LEFT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T LeftOuterJoin(FromClause table, string onClause)
+        {
+            return this.LeftOuterJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs a RIGHT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T RightOuterJoin(FromClause table, string onClause)
+        {
+            return this.RightOuterJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs a FULL JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T FullJoin(FromClause table, string onClause)
+        {
+            return this.FullJoin((IFromClause)table, onClause);
+        }
+
+        /// <summary>
+        /// Performs an OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T OuterJoin(IFromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new OuterJoin(lastClause, table, onClause));
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Performs an INNER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T InnerJoin(IFromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new InnerJoin(lastClause, table, onClause));
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Performs a LEFT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T LeftOuterJoin(IFromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new LeftOuterJoin(lastClause, table, onClause));
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Performs a RIGHT OUTER JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T RightOuterJoin(IFromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new RightOuterJoin(lastClause, table, onClause));
+            return (T)this;
+        }
+
+        /// <summary>
+        /// Performs a FULL JOIN.
+        /// </summary>
+        /// <param name="table">The table.</param>
+        /// <param name="onClause">The on clause.</param>
+        /// <returns>The same statement for Fluentness</returns>
+        public T FullJoin(IFromClause table, string onClause)
+        {
+            this.TransformLastTable(lastClause => new FullJoin(lastClause, table, onClause));
             return (T)this;
         }
 

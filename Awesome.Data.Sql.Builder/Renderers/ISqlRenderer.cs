@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Awesome.Data.Sql.Builder.Select;
+using Awesome.Data.Sql.Builder.Update;
 
 namespace Awesome.Data.Sql.Builder.Renderers
 {
@@ -44,7 +45,14 @@ namespace Awesome.Data.Sql.Builder.Renderers
         /// <param name="select">The select.</param>
         /// <returns>The rendered SQL SELECT clause.</returns>
         string RenderSelect(SelectStatement select);
-        
+
+        /// <summary>
+        /// Renders the UPDATE statement.
+        /// </summary>
+        /// <param name="update">The update.</param>
+        /// <returns>The rendered SQL UPDATE clause.</returns>
+        string RenderUpdate(UpdateStatement update);
+
         /// <summary>
         /// Appends the limit and offset clause of the select statement to the builder.
         /// </summary>
@@ -77,14 +85,16 @@ namespace Awesome.Data.Sql.Builder.Renderers
         /// Appends the from clause of the select statement to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="select">The select.</param>
-        void AppendFrom(StringBuilder builder, SelectStatement select);
+        /// <param name="statement">The statement.</param>
+        void AppendFrom<T>(StringBuilder builder, SqlStatement<T> statement)
+            where T : SqlStatement<T>;
 
         /// <summary>
         /// Appends the where clause of the select statement to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="select">The select.</param>
-        void AppendWhere(StringBuilder builder, SelectStatement select);
+        /// <param name="statement">The statement.</param>
+        void AppendWhere<T>(StringBuilder builder, SqlStatement<T> statement)
+            where T : SqlStatement<T>;
     }
 }
