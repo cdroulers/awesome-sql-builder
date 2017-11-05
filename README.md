@@ -97,6 +97,19 @@ Assert.That(result.OffsetClause, Is.EqualTo("20"));
 
 Only supports `$select`, `$top`, `$skip` and `$inlinecount=allpages` for now!
 
+## Using with ADO.NET
+
+You can generate the SQL then add the parameters manually.
+
+```csharp
+var select = SqlStatements.Select("Name").From("Users").Where("Name LIKE @Query");
+
+cmd.Text = select.ToString();
+cmd.Parameters.AddWithValue("@Query", "%" + userInput + "%");
+
+var dr = cmd.ExecuteDataReader();
+```
+
 ## Contributing
 
 1. Fork it!
