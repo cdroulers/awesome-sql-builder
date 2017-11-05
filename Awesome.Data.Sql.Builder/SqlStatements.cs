@@ -1,4 +1,5 @@
-﻿using Awesome.Data.Sql.Builder.Insert;
+﻿using Awesome.Data.Sql.Builder.Delete;
+using Awesome.Data.Sql.Builder.Insert;
 using Awesome.Data.Sql.Builder.Select;
 using Awesome.Data.Sql.Builder.Update;
 
@@ -26,6 +27,15 @@ namespace Awesome.Data.Sql.Builder
         public static InsertStatement Insert()
         {
             return new InsertStatement();
+        }
+
+        /// <summary>
+        /// Creates an DELETE statement.
+        /// </summary>
+        /// <returns>A <see cref="DeleteStatement"/> instance</returns>
+        public static DeleteStatement Delete()
+        {
+            return new DeleteStatement();
         }
 
         /// <summary>

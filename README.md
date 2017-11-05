@@ -6,7 +6,10 @@ A small library for building SQL queries in a better way than regular string con
 
 Clauses can be added in any order.
 
-Mostly for use directly by ADO.NET or micro-ORMs such as Dapper.
+Mostly for use directly by ADO.NET or micro-ORMs such as Dapper. It aims to support as much of SQL as possible
+in a fluent, simple way.
+
+It definitely does not aim to be an ORM, so there's no integration with any actual querying mechanism!
 
 ## Awesome.Data.Sql.Builder.OData
 
@@ -75,6 +78,52 @@ SET
 WHERE
     u.IsCool = TRUE AND
     u.Name LIKE @Query"));
+```
+
+### INSERT Statement
+
+Sample unit test!
+
+```csharp
+var statement = new InsertStatement(new[] { "Name", "EmailAddress" })
+    .Into("Users");
+
+var sql = statement.ToSql();
+
+Assert.That(
+    sql,
+    SqlCompareConstraint.EqualTo(@"INSERT INTO Users
+    (
+        Name,
+        EmailAddress
+    )
+VALUES
+    (
+        @Name,
+        @EmailAddress
+    )"));
+```
+
+### DELETE Statement
+
+Sample unit test!
+
+```csharp
+var statement = new DeleteStatement(tableToDelete: "u")
+    .From("Users u")
+    .InnerJoin("Teams t", "u.TeamID = t.ID")
+    .Where("t.IsOld = TRUE");
+
+var sql = statement.ToSql();
+
+Assert.That(
+    sql,
+    SqlCompareConstraint.EqualTo(@"DELETE u
+FROM
+    Users u
+    INNER JOIN Teams t ON u.TeamID = t.ID
+WHERE
+    t.IsOld = TRUE"));
 ```
 
 

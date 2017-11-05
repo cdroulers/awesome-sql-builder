@@ -58,6 +58,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Delete\DeleteStatement.cs" />
     <Compile Include="FromClause.cs" />
     <Compile Include="IFromClause.cs" />
     <Compile Include="Insert\InsertStatement.cs" />

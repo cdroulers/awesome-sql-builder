@@ -41,6 +41,7 @@ namespace Awesome.Data.Sql.Builder.Update
             : base(statement)
         {
             this.columnsList = statement.columnsList.ToList();
+            this.TableToUpdate = statement.TableToUpdate;
         }
 
         /// <summary>

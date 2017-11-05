@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Awesome.Data.Sql.Builder.Delete;
 using Awesome.Data.Sql.Builder.Insert;
 using Awesome.Data.Sql.Builder.Select;
 using Awesome.Data.Sql.Builder.Update;
@@ -17,6 +18,7 @@ namespace Awesome.Data.Sql.Builder.Renderers
         ///     Indentation to use when indenting query sub-parts.
         /// </summary>
         private const string Indentation = "    ";
+        private const string DoubleIndentation = Indentation + Indentation;
 
         /// <summary>
         ///     Separator for general things in SQL.
@@ -148,6 +150,32 @@ namespace Awesome.Data.Sql.Builder.Renderers
             if (!string.IsNullOrWhiteSpace(update.TableToUpdate))
             {
                 this.AppendFrom(builder, update);
+            }
+        }
+
+        /// <summary>
+        /// Appends the delete statement.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="delete">The delete statement.</param>
+        public virtual void AppendDelete(StringBuilder builder, DeleteStatement delete)
+        {
+            builder.Append("DELETE");
+            if (string.IsNullOrWhiteSpace(delete.TableToDelete))
+            {
+                builder.Append(" ");
+                delete.Tables.First().BuildSql(builder, this);
+            }
+            else
+            {
+                builder.Append(" " + delete.TableToDelete);
+            }
+
+            builder.AppendLine();
+
+            if (!string.IsNullOrWhiteSpace(delete.TableToDelete))
+            {
+                this.AppendFrom(builder, delete);
             }
         }
 
@@ -298,54 +326,16 @@ namespace Awesome.Data.Sql.Builder.Renderers
         public string RenderInsert(InsertStatement insert)
         {
             var builder = new StringBuilder();
-            const string doubleIndentation = Indentation + Indentation;
 
-            builder.AppendLine("INSERT INTO " + insert.Table); if (insert.Select != null)
+            builder.AppendLine("INSERT INTO " + insert.Table);
+
+            if (insert.Select != null)
             {
-                // Columns list
-                builder.AppendLine(Indentation + "(");
-                builder.AppendLine(
-                    doubleIndentation +
-                    string.Join(
-                        SeparatorNoSpace + Environment.NewLine + doubleIndentation,
-                        insert.Select.ColumnsList));
-                builder.AppendLine(Indentation + ")");
-
-                // Select
-                builder.Append(this.RenderSelect(insert.Select));
+                this.AppendInsertFromSelect(insert, builder);
             }
             else if (insert.ColumnsList.Any())
             {
-                // Columns list
-                builder.AppendLine(Indentation + "(");
-                builder.AppendLine(
-                    doubleIndentation +
-                    string.Join(
-                        SeparatorNoSpace + Environment.NewLine + doubleIndentation,
-                        insert.ColumnsList));
-                builder.AppendLine(Indentation + ")");
-
-                // Rows
-                var rowCount = insert.RowCount.GetValueOrDefault(1);
-                builder.AppendLine("VALUES");
-                for (int i = 0; i < rowCount; i++)
-                {
-                    builder.AppendLine(Indentation + "(");
-                    builder.AppendLine(
-                        doubleIndentation +
-                        string.Join(
-                            SeparatorNoSpace + Environment.NewLine + doubleIndentation,
-                            insert.ColumnsList.Select(x =>
-                                "@" +
-                                x +
-                                (rowCount == 1 ? string.Empty : i.ToString()))));
-                    builder.Append(Indentation + ")");
-
-                    if (i < rowCount - 1)
-                    {
-                        builder.AppendLine(",");
-                    }
-                }
+                AppendInsertFromColumns(insert, builder);
             }
             else
             {
@@ -353,6 +343,71 @@ namespace Awesome.Data.Sql.Builder.Renderers
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Renders the DELETE statement.
+        /// </summary>
+        /// <param name="delete">The delete statement</param>
+        /// <returns>The rendered SQL DELETE clause.</returns>
+        public string RenderDelete(DeleteStatement delete)
+        {
+            var builder = new StringBuilder();
+
+            this.AppendDelete(builder, delete);
+
+            this.AppendWhere(builder, delete);
+
+            return builder.ToString();
+        }
+
+        private static void AppendInsertFromColumns(InsertStatement insert, StringBuilder builder)
+        {
+            // Columns list
+            builder.AppendLine(Indentation + "(");
+            builder.AppendLine(
+                DoubleIndentation +
+                string.Join(
+                    SeparatorNoSpace + Environment.NewLine + DoubleIndentation,
+                    insert.ColumnsList));
+            builder.AppendLine(Indentation + ")");
+
+            // Rows
+            var rowCount = insert.RowCount.GetValueOrDefault(1);
+            builder.AppendLine("VALUES");
+            for (int i = 0; i < rowCount; i++)
+            {
+                builder.AppendLine(Indentation + "(");
+                builder.AppendLine(
+                    DoubleIndentation +
+                    string.Join(
+                        SeparatorNoSpace + Environment.NewLine + DoubleIndentation,
+                        insert.ColumnsList.Select(x =>
+                            "@" +
+                            x +
+                            (rowCount == 1 ? string.Empty : i.ToString()))));
+                builder.Append(Indentation + ")");
+
+                if (i < rowCount - 1)
+                {
+                    builder.AppendLine(",");
+                }
+            }
+        }
+
+        private void AppendInsertFromSelect(InsertStatement insert, StringBuilder builder)
+        {
+            // Columns list
+            builder.AppendLine(Indentation + "(");
+            builder.AppendLine(
+                DoubleIndentation +
+                string.Join(
+                    SeparatorNoSpace + Environment.NewLine + DoubleIndentation,
+                    insert.Select.ColumnsList));
+            builder.AppendLine(Indentation + ")");
+
+            // Select
+            builder.Append(this.RenderSelect(insert.Select));
         }
     }
 }
