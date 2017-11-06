@@ -1,6 +1,7 @@
 # Awesome.Data.Sql.Builder
 
 Travis CI: [![Build Status](https://travis-ci.org/cdroulers/awesome-sql-builder.svg)](https://travis-ci.org/cdroulers/awesome-sql-builder)
+Gitter Chat: [![Gitter chat](https://badges.gitter.im/cdroulers/awesome-sql-builder.png)](https://gitter.im/awesome-sql-builder/Lobby)
 
 A small library for building SQL queries in a better way than regular string concatenation.
 
