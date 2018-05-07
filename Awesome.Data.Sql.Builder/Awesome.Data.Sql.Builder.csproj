@@ -58,8 +58,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Delete\DeleteStatement.cs" />
     <Compile Include="FromClause.cs" />
     <Compile Include="IFromClause.cs" />
+    <Compile Include="Insert\InsertStatement.cs" />
     <Compile Include="ISqlFragment.cs" />
     <Compile Include="Renderers\DefaultSqlRenderer.cs" />
     <Compile Include="Renderers\ISqlRenderer.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlStatements.cs" />
     <Compile Include="TableClause.cs" />
+    <Compile Include="Update\UpdateStatement.cs" />
     <Compile Include="WhereClause.cs" />
   </ItemGroup>
   <ItemGroup>

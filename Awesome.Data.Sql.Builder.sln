@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Awesome.Data.Sql.Builder", "Awesome.Data.Sql.Builder\Awesome.Data.Sql.Builder.csproj", "{C74D3E5E-201B-4322-A460-98590D29BA73}"
 EndProject
@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4508FC8C-6D4D-4D81-85BC-A6E547B15FB1}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		LICENSE = LICENSE
 		publish.ps1 = publish.ps1
@@ -55,5 +56,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {022DE95E-AB03-417A-8F1F-A19A0729E64F}
 	EndGlobalSection
 EndGlobal
