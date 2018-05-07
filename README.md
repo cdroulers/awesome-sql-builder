@@ -206,6 +206,10 @@ LGPL: See [LICENSE](LICENSE)
 
 ## Awesome.Data.Sql.Builder History
 
+### 1.2.0 (2018-05-07)
+
+* Basic support for INSERT, UPDATE and DELETE statements.
+
 ### 1.1.0 (2016-01-18)
 
 * Support for different SQL providers (SQL Server in particular) in a pluggable way.
