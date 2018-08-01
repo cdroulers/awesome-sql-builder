@@ -1,23 +1,20 @@
 ﻿using Awesome.Data.Sql.Builder.Renderers;
 using Awesome.Data.Sql.Builder.Select;
-using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit.Renderers
 {
-    // ReSharper disable InconsistentNaming
-    [TestFixture]
     public class GivenSqlServer2012SqlRenderer
     {
-        private ISqlRenderer renderer;
-
-        [SetUp]
-        public void SetUp()
+        private readonly ISqlRenderer renderer;
+        
+        public GivenSqlServer2012SqlRenderer()
         {
             this.renderer = new SqlServer2012SqlRenderer();
         }
 
-        [Test]
+        [Fact]
         public void When_offsetting_and_limiting_Then_renders_differently()
         {
             var statement = new SelectStatement(new[] { "u.ID" })
@@ -27,14 +24,11 @@ namespace Awesome.Data.Sql.Builder.Test.Unit.Renderers
 
             var sql = this.renderer.RenderSelect(statement);
 
-            Assert.That(
-                sql,
-                SqlCompareConstraint.EqualTo(@"SELECT
-    u.ID
+            sql.Should().BeEquivalentToIgnoringNewLines(@"SELECT" + "\n" + @"    u.ID
 FROM
     Users u
 OFFSET 6 ROWS
-FETCH NEXT 3 ROWS ONLY"));
+FETCH NEXT 3 ROWS ONLY");
         }
     }
 }

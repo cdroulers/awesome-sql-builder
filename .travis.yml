@@ -1,7 +1,10 @@
 language: csharp
 solution: Awesome.Data.Sql.Builder.sln
+mono: none
+dotnet: 2.0.2
 install:
-  - nuget restore ./Awesome.Data.Sql.Builder.sln -OutputDirectory ./packages
+  - dotnet restore ./Awesome.Data.Sql.Builder.sln
 script:
-  - xbuild /p:Configuration=Release Awesome.Data.Sql.Builder.sln
-  - mono ./packages/NUnit.Runners.*/tools/nunit-console.exe ./Awesome.Data.Sql.Builder.Test.Unit/bin/Release/Awesome.Data.Sql.Builder.Test.Unit.dll
+  - dotnet build -c Release Awesome.Data.Sql.Builder.sln
+  - cd ./Awesome.Data.Sql.Builder.Test.Unit
+  - dotnet test

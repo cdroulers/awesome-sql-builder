@@ -1,15 +1,12 @@
-﻿using Awesome.Data.Sql.Builder.Select;
-using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
-using Awesome.Data.Sql.Builder.Update;
-using NUnit.Framework;
+﻿using Awesome.Data.Sql.Builder.Update;
+using FluentAssertions;
+using Xunit;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
 {
-    // ReSharper disable InconsistentNaming
-    [TestFixture]
     public class GivenUpdateStatement
     {
-        [Test]
+        [Fact]
         public void When_updating_Then_builds_properly()
         {
             var statement = SqlStatements.Update("ID", "Name", "EmailAddress")
@@ -19,19 +16,17 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             var sql = statement.ToSql();
 
-            Assert.That(
-                sql,
-                SqlCompareConstraint.EqualTo(@"UPDATE Users
+            sql.Should().BeEquivalentToIgnoringNewLines(@"UPDATE Users
 SET
     ID = @ID,
     Name = @Name,
     EmailAddress = @EmailAddress
 WHERE
     u.IsCool = TRUE AND
-    u.Name LIKE @Query"));
+    u.Name LIKE @Query");
         }
 
-        [Test]
+        [Fact]
         public void When_updating_from_two_tables_Then_builds_properly()
         {
             var statement = new UpdateStatement(new[] { "Name" }, tableToUpdate: "u")
@@ -41,16 +36,14 @@ WHERE
 
             var sql = statement.ToSql();
 
-            Assert.That(
-                sql,
-                SqlCompareConstraint.EqualTo(@"UPDATE u
+            sql.Should().BeEquivalentToIgnoringNewLines(@"UPDATE u
 SET
     Name = @Name
 FROM
     Users u
     INNER JOIN Teams t ON u.TeamID = t.ID
 WHERE
-    t.IsOld = TRUE"));
+    t.IsOld = TRUE");
         }
     }
 }

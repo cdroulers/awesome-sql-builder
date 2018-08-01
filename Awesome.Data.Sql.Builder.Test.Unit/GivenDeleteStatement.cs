@@ -1,13 +1,12 @@
 ﻿using Awesome.Data.Sql.Builder.Delete;
-using Awesome.Data.Sql.Builder.Test.Unit.Contraints;
-using NUnit.Framework;
+using FluentAssertions;
+using Xunit;
 
 namespace Awesome.Data.Sql.Builder.Test.Unit
 {
-    [TestFixture]
     public class GivenDeleteStatement
     {
-        [Test]
+        [Fact]
         public void When_deleting_Then_builds_properly()
         {
             var statement = SqlStatements.Delete()
@@ -17,15 +16,13 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
 
             var sql = statement.ToSql();
 
-            Assert.That(
-                sql,
-                SqlCompareConstraint.EqualTo(@"DELETE Users
+            sql.Should().BeEquivalentToIgnoringNewLines(@"DELETE Users
 WHERE
     u.IsCool = TRUE AND
-    u.Name LIKE @Query"));
+    u.Name LIKE @Query");
         }
 
-        [Test]
+        [Fact]
         public void When_deleting_from_two_tables_Then_builds_properly()
         {
             var statement = new DeleteStatement(tableToDelete: "u")
@@ -35,14 +32,12 @@ WHERE
 
             var sql = statement.ToSql();
 
-            Assert.That(
-                sql,
-                SqlCompareConstraint.EqualTo(@"DELETE u
+            sql.Should().BeEquivalentToIgnoringNewLines(@"DELETE u
 FROM
     Users u
     INNER JOIN Teams t ON u.TeamID = t.ID
 WHERE
-    t.IsOld = TRUE"));
+    t.IsOld = TRUE");
         }
     }
 }

@@ -1,105 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C74D3E5E-201B-4322-A460-98590D29BA73}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Awesome.Data.Sql.Builder</RootNamespace>
-    <AssemblyName>Awesome.Data.Sql.Builder</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.0</Version>
+    <Authors>Christian Droulers &lt;droulers.christian@gmail.com&gt;</Authors>
+    <Description>A simple library to build SQL queries.</Description>
+    <Company />
+    <RepositoryUrl>git@github.com:cdroulers/awesome-sql-builder.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl>http://www.gnu.org/licenses/lgpl.html</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/cdroulers/awesome-sql-builder</PackageProjectUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Awesome.Data.Sql.Builder.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Awesome.Data.Sql.Builder.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseNuGet|AnyCPU'">
-    <OutputPath>..\builds\nuget\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\builds\nuget\Awesome.Data.Sql.Builder.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <BuildPackage>true</BuildPackage>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs">
-      <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Delete\DeleteStatement.cs" />
-    <Compile Include="FromClause.cs" />
-    <Compile Include="IFromClause.cs" />
-    <Compile Include="Insert\InsertStatement.cs" />
-    <Compile Include="ISqlFragment.cs" />
-    <Compile Include="Renderers\DefaultSqlRenderer.cs" />
-    <Compile Include="Renderers\ISqlRenderer.cs" />
-    <Compile Include="Renderers\SqlServer2012SqlRenderer.cs" />
-    <Compile Include="Renderers\SqlServerSqlRenderer.cs" />
-    <Compile Include="Select\ExceptOperation.cs" />
-    <Compile Include="Select\IntersectOperation.cs" />
-    <Compile Include="Select\GroupByClause.cs" />
-    <Compile Include="Select\FullJoin.cs" />
-    <Compile Include="Select\ISetQuery.cs" />
-    <Compile Include="Select\RightOuterJoin.cs" />
-    <Compile Include="Select\LeftOuterJoin.cs" />
-    <Compile Include="Select\InnerJoin.cs" />
-    <Compile Include="Select\JoinClause.cs" />
-    <Compile Include="Select\OrderByClause.cs" />
-    <Compile Include="Select\OuterJoin.cs" />
-    <Compile Include="Select\SelectStatement.cs" />
-    <Compile Include="Select\SetOperation.cs" />
-    <Compile Include="Select\UnionOperation.cs" />
-    <Compile Include="SqlBuilderExtensions.cs" />
-    <Compile Include="SqlStatement.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlStatements.cs" />
-    <Compile Include="TableClause.cs" />
-    <Compile Include="Update\UpdateStatement.cs" />
-    <Compile Include="WhereClause.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Awesome.Data.Sql.Builder.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
