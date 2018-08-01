@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Awesome.Data.Sql.Builder
 {
@@ -7,15 +7,19 @@ namespace Awesome.Data.Sql.Builder
     /// </summary>
     public class WhereClause : ICloneable
     {
-        /// <summary>
-        ///     The clause of the WHERE statement
-        /// </summary>
-        public readonly string Clause;
+        private readonly string clause;
+
+        private readonly bool or;
 
         /// <summary>
-        ///     If the condition between this clause and the next is an SQL OR or AND
+        ///     The clause of the WHERE statement.
         /// </summary>
-        public readonly bool Or;
+        public string Clause => this.clause;
+
+        /// <summary>
+        ///     If the condition between this clause and the next is an SQL OR or AND.
+        /// </summary>
+        public bool Or => this.or;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WhereClause"/> class.
@@ -24,8 +28,8 @@ namespace Awesome.Data.Sql.Builder
         /// <param name="or">if set to <c>true</c> [or].</param>
         public WhereClause(string clause, bool or)
         {
-            this.Clause = clause;
-            this.Or = or;
+            this.clause = clause;
+            this.or = or;
         }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace Awesome.Data.Sql.Builder
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public WhereClause Clone()
         {
             return new WhereClause(this.Clause, this.Or);

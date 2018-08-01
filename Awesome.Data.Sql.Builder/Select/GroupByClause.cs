@@ -7,10 +7,12 @@ namespace Awesome.Data.Sql.Builder.Select
     /// </summary>
     public class GroupByClause : ICloneable
     {
+        private readonly string column;
+
         /// <summary>
-        ///     The column to group by
+        ///     The column to group by.
         /// </summary>
-        public readonly string Column;
+        public string Column => this.column;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupByClause"/> class.
@@ -18,7 +20,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <param name="column">The column.</param>
         public GroupByClause(string column)
         {
-            this.Column = column;
+            this.column = column;
         }
 
         /// <summary>
@@ -35,14 +37,14 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public GroupByClause Clone()
         {
             return new GroupByClause(this.Column);
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="GroupByClause"/>.
+        /// Performs an implicit conversion from <see cref="string"/> to <see cref="GroupByClause"/>.
         /// </summary>
         /// <param name="s">The s.</param>
         /// <returns>

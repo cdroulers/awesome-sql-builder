@@ -1,7 +1,7 @@
-﻿namespace Awesome.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
-    ///     An SQL Right Outer Join
+    ///     An SQL Right Outer Join.
     /// </summary>
     public class RightOuterJoin : JoinClause<RightOuterJoin>
     {
@@ -30,7 +30,7 @@
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public override RightOuterJoin Clone()
         {
             return new RightOuterJoin(this.FirstTable.CloneFrom(), this.SecondTable.CloneFrom(), this.OnClause);

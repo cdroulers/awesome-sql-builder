@@ -6,24 +6,15 @@ namespace Awesome.Data.Sql.Builder.Select
     /// <summary>
     ///     An SQL Join clause.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Joining on which type.</typeparam>
     public abstract class JoinClause<T> : FromClause
         where T : JoinClause<T>
     {
-        /// <summary>
-        ///     The first clause to join on.
-        /// </summary>
-        public readonly IFromClause FirstTable;
+        private readonly IFromClause firstTable;
 
-        /// <summary>
-        ///     The second clause to join on.
-        /// </summary>
-        public readonly IFromClause SecondTable;
+        private readonly IFromClause secondTable;
 
-        /// <summary>
-        ///     The ON clause to join the two tables.
-        /// </summary>
-        public readonly string OnClause;
+        private readonly string onClause;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JoinClause&lt;T&gt;"/> class.
@@ -33,9 +24,9 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <param name="onClause">The on clause.</param>
         protected JoinClause(IFromClause firstTable, IFromClause secondTable, string onClause)
         {
-            this.FirstTable = firstTable;
-            this.SecondTable = secondTable;
-            this.OnClause = onClause;
+            this.firstTable = firstTable;
+            this.secondTable = secondTable;
+            this.onClause = onClause;
         }
 
         /// <summary>
@@ -44,15 +35,30 @@ namespace Awesome.Data.Sql.Builder.Select
         protected abstract string ClauseName { get; }
 
         /// <summary>
+        ///     The first clause to join on.
+        /// </summary>
+        public IFromClause FirstTable => this.firstTable;
+
+        /// <summary>
+        ///     The second clause to join on.
+        /// </summary>
+        public IFromClause SecondTable => this.secondTable;
+
+        /// <summary>
+        ///     The ON clause to join the two tables.
+        /// </summary>
+        public string OnClause => this.onClause;
+
+        /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public abstract T Clone();
 
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public override IFromClause CloneFrom()
         {
             return this.Clone();

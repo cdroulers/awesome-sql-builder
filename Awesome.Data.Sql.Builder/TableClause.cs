@@ -1,17 +1,19 @@
-﻿using System.Text;
+using System.Text;
 using Awesome.Data.Sql.Builder.Renderers;
 
 namespace Awesome.Data.Sql.Builder
 {
     /// <summary>
-    ///     A simple table clause
+    ///     A simple table clause.
     /// </summary>
     public class TableClause : FromClause
     {
+        private readonly string name;
+
         /// <summary>
         ///     The table name.
         /// </summary>
-        public readonly string Name;
+        public string Name => this.name;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableClause"/> class.
@@ -20,14 +22,14 @@ namespace Awesome.Data.Sql.Builder
         /// <param name="alias">The alias.</param>
         public TableClause(string name, string alias = null)
         {
-            this.Name = name;
+            this.name = name;
             this.Alias = alias;
         }
 
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public TableClause Clone()
         {
             return new TableClause(this.Name);
@@ -36,7 +38,7 @@ namespace Awesome.Data.Sql.Builder
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public override IFromClause CloneFrom()
         {
             return this.Clone();
@@ -56,7 +58,7 @@ namespace Awesome.Data.Sql.Builder
         /// Equalses the specified other.
         /// </summary>
         /// <param name="other">The other.</param>
-        /// <returns></returns>
+        /// <returns>True if they are equal.</returns>
         public bool Equals(TableClause other)
         {
             if (ReferenceEquals(null, other))
@@ -73,11 +75,11 @@ namespace Awesome.Data.Sql.Builder
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
@@ -103,7 +105,7 @@ namespace Awesome.Data.Sql.Builder
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -111,10 +113,10 @@ namespace Awesome.Data.Sql.Builder
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
         public override string ToString()
         {

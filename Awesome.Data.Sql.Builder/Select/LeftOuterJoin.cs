@@ -1,7 +1,7 @@
-﻿namespace Awesome.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
-    /// An SQL Left Outer Join
+    /// An SQL Left Outer Join.
     /// </summary>
     public class LeftOuterJoin : JoinClause<LeftOuterJoin>
     {
@@ -30,7 +30,7 @@
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public override LeftOuterJoin Clone()
         {
             return new LeftOuterJoin(this.FirstTable.CloneFrom(), this.SecondTable.CloneFrom(), this.OnClause);

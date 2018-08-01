@@ -1,14 +1,11 @@
 ﻿namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
-    ///     The SQL INTERSECT operation
+    ///     The SQL INTERSECT operation.
     /// </summary>
     public class IntersectOperation : SetOperation<IntersectOperation>
     {
-        /// <summary>
-        ///     If true, will perform a INTERSECT ALL query instead of simple INTERSECT
-        /// </summary>
-        public readonly bool All;
+        private readonly bool all;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IntersectOperation"/> class.
@@ -19,11 +16,16 @@
         public IntersectOperation(ISetQuery first, ISetQuery second, bool all = false)
             : base(first, second)
         {
-            this.All = all;
+            this.all = all;
         }
 
         /// <summary>
-        /// Gets the set operator of the operation
+        ///     If true, will perform a INTERSECT ALL query instead of simple INTERSECT.
+        /// </summary>
+        public bool All => this.all;
+
+        /// <summary>
+        /// Gets the set operator of the operation.
         /// </summary>
         protected override string SetOperator
         {
