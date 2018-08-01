@@ -20,7 +20,6 @@ namespace Awesome.Data.Sql.Builder.Test.Unit
             FromClause clause = "Teams";
             clause.As("t");
 
-
             clause.Should().BeOfType<TableClause>();
             clause.ToSql().Should().Be("Teams t");
         }

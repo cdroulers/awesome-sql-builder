@@ -5,24 +5,18 @@ using Awesome.Data.Sql.Builder.Renderers;
 namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
-    ///     An SQL SET operation
+    ///     An SQL SET operation.
     ///     <remarks>http://en.wikipedia.org/wiki/Set_operations_(SQL)</remarks>
     /// </summary>
     public abstract class SetOperation<T> : ISetQuery
         where T : SetOperation<T>
     {
-        /// <summary>
-        ///     First query
-        /// </summary>
-        protected readonly ISetQuery First;
+        private readonly ISetQuery first;
+
+        private readonly ISetQuery second;
 
         /// <summary>
-        ///     Second query
-        /// </summary>
-        protected readonly ISetQuery Second;
-
-        /// <summary>
-        ///     Gets the set operator of the operation
+        ///     Gets the set operator of the operation.
         /// </summary>
         protected abstract string SetOperator { get; }
 
@@ -33,12 +27,22 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <param name="second">The second.</param>
         protected SetOperation(ISetQuery first, ISetQuery second)
         {
-            this.First = first;
-            this.Second = second;
+            this.first = first;
+            this.second = second;
         }
 
         /// <summary>
-        /// Adds the SQL for the current object to the builder
+        ///     First query.
+        /// </summary>
+        protected ISetQuery First => this.first;
+
+        /// <summary>
+        ///     Second query.
+        /// </summary>
+        protected ISetQuery Second => this.second;
+
+        /// <summary>
+        /// Adds the SQL for the current object to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="renderer">The renderer.</param>
@@ -52,7 +56,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public IFromClause CloneFrom()
         {
             return this.Clone();
@@ -78,7 +82,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// Sets the alias for this statement.
         /// </summary>
         /// <param name="alias">The alias.</param>
-        /// <returns></returns>
+        /// <returns>Itself for fluent goodness.</returns>
         public T As(string alias)
         {
             this.Alias = alias;
@@ -88,7 +92,7 @@ namespace Awesome.Data.Sql.Builder.Select
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public abstract T Clone();
 
         /// <summary>
@@ -103,7 +107,7 @@ namespace Awesome.Data.Sql.Builder.Select
         }
 
         /// <summary>
-        /// Adds the SQL for the current object to the builder
+        /// Adds the SQL for the current object to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
         public void BuildSql(StringBuilder builder)
@@ -112,7 +116,7 @@ namespace Awesome.Data.Sql.Builder.Select
         }
 
         /// <summary>
-        /// Adds the SQL for the current object to the builder
+        /// Adds the SQL for the current object to the builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="renderer">The SQL renderer to use.</param>

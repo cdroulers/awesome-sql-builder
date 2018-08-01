@@ -1,7 +1,7 @@
-﻿namespace Awesome.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
-    ///     An SQL Full join
+    ///     An SQL Full join.
     /// </summary>
     public class FullJoin : JoinClause<FullJoin>
     {
@@ -30,7 +30,7 @@
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public override FullJoin Clone()
         {
             return new FullJoin(this.FirstTable.CloneFrom(), this.SecondTable.CloneFrom(), this.OnClause);

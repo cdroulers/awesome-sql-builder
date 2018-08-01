@@ -5,6 +5,6 @@ dotnet: 2.0.2
 install:
   - dotnet restore ./Awesome.Data.Sql.Builder.sln
 script:
-  - dotnet build -c Release Awesome.Data.Sql.Builder.sln
+  - dotnet build -c Release /p:TreatWarningsAsErrors=true Awesome.Data.Sql.Builder.sln 
   - cd ./Awesome.Data.Sql.Builder.Test.Unit
   - dotnet test

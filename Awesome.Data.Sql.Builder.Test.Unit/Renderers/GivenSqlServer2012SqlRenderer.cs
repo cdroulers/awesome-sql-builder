@@ -8,7 +8,7 @@ namespace Awesome.Data.Sql.Builder.Test.Unit.Renderers
     public class GivenSqlServer2012SqlRenderer
     {
         private readonly ISqlRenderer renderer;
-        
+
         public GivenSqlServer2012SqlRenderer()
         {
             this.renderer = new SqlServer2012SqlRenderer();

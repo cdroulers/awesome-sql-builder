@@ -1,7 +1,7 @@
-﻿namespace Awesome.Data.Sql.Builder.Select
+namespace Awesome.Data.Sql.Builder.Select
 {
     /// <summary>
-    ///     An SQL Inner Join
+    ///     An SQL Inner Join.
     /// </summary>
     public class InnerJoin : JoinClause<InnerJoin>
     {
@@ -30,7 +30,7 @@
         /// <summary>
         /// Clones this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A clone of this instance.</returns>
         public override InnerJoin Clone()
         {
             return new InnerJoin(this.FirstTable.CloneFrom(), this.SecondTable.CloneFrom(), this.OnClause);

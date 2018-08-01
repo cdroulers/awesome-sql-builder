@@ -1,0 +1,30 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "orderingRules": {
+      "systemUsingDirectivesFirst": true,
+      "usingDirectivesPlacement": "outsideNamespace"
+    },
+    "namingRules": {
+      "allowedHungarianPrefixes": [
+        "id"
+      ]
+    },
+    "documentationRules": {
+      "documentInternalElements": false,
+      "documentExposedElements": false,
+      "xmlHeader": false,
+      "documentPrivateFields": false,
+      "documentInterfaces": false,
+      "documentPrivateElements": false
+    },
+    "indentation": {
+      "indentationSize": 4,
+      "useTabs": false,
+      "tabSize": 4
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    }
+  }
+}
